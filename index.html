@@ -29,6 +29,7 @@
       color: rgba(255,255,255,0.35);
     }
     .nav-pill.active { color: #fff; }
+    .nav-right { display: flex; gap: 8px; align-items: center; }
     .nav-arrows { display: flex; gap: 6px; }
     .nav-arrow {
       width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12);
@@ -38,6 +39,19 @@
     }
     .nav-arrow:hover { background: rgba(255,255,255,0.1); color: #fff; }
     .nav-arrow:disabled { opacity: 0.2; cursor: default; }
+    .font-toggle {
+      display: flex; align-items: center; gap: 2px;
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; overflow: hidden;
+    }
+    .font-btn {
+      padding: 4px 9px; background: rgba(255,255,255,0.04); border: none;
+      color: rgba(255,255,255,0.6); cursor: pointer; font-family: 'Inter', sans-serif;
+      font-weight: 700; transition: all 0.2s; border-right: 1px solid rgba(255,255,255,0.08);
+      line-height: 1;
+    }
+    .font-btn:last-child { border-right: none; }
+    .font-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .font-btn.active { background: rgba(255,255,255,0.12); color: #fff; }
 
     /* ── SLIDE SYSTEM ────────────────────────────────── */
     .slides-viewport { position: fixed; top: 52px; left: 0; right: 0; bottom: 0; overflow: hidden; }
@@ -141,14 +155,14 @@
     .col-items { display: flex; flex-direction: column; gap: 0; flex: 1; min-height: 0; overflow: hidden; }
     .col-item {
       display: flex; align-items: flex-start; gap: 9px; padding: 7px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12.5px;
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: var(--fs-body, 13px);
       color: rgba(255,255,255,0.62); line-height: 1.45;
     }
     .col-item:last-child { border-bottom: none; }
     .col-item-dot { flex-shrink: 0; width: 4px; height: 4px; border-radius: 50%; margin-top: 6px; }
     .col-step {
       display: flex; align-items: flex-start; gap: 10px; padding: 6px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: var(--fs-body, 13px);
       color: rgba(255,255,255,0.62); line-height: 1.45;
     }
     .col-step:last-child { border-bottom: none; }
@@ -163,7 +177,7 @@
     }
     .col-feature {
       display: flex; align-items: flex-start; gap: 7px; padding: 5px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 11.5px;
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: var(--fs-small, 12px);
       color: rgba(255,255,255,0.5); line-height: 1.4;
     }
     .col-feature:last-child { border-bottom: none; }
@@ -386,7 +400,8 @@
     ]
 
     // ── TOP NAV ──────────────────────────────────────────────────────────
-    function NavBar({ current, total, tools, onNavigate }) {
+    function NavBar({ current, total, tools, onNavigate, fontSize, onFontSize }) {
+      const sizes = ['S', 'M', 'L']
       return h`
         <nav class="nav">
           <span class="nav-logo" onClick=${() => onNavigate(0)}>AoV TH AI Tools</span>
@@ -402,9 +417,18 @@
             `)}
           </div>
 
-          <div class="nav-arrows">
-            <button class="nav-arrow" onClick=${() => onNavigate(current - 1)} disabled=${current === 0}>&#8592;</button>
-            <button class="nav-arrow" onClick=${() => onNavigate(current + 1)} disabled=${current === total - 1}>&#8594;</button>
+          <div class="nav-right">
+            <div class="font-toggle" title="Text size">
+              ${sizes.map(s => h`
+                <button key=${s} class=${'font-btn' + (fontSize === s ? ' active' : '')}
+                  style=${{ fontSize: s === 'S' ? '10px' : s === 'M' ? '12px' : '14px' }}
+                  onClick=${() => onFontSize(s)}>A</button>
+              `)}
+            </div>
+            <div class="nav-arrows">
+              <button class="nav-arrow" onClick=${() => onNavigate(current - 1)} disabled=${current === 0}>←</button>
+              <button class="nav-arrow" onClick=${() => onNavigate(current + 1)} disabled=${current === total - 1}>→</button>
+            </div>
           </div>
         </nav>
       `
@@ -450,7 +474,7 @@
                   class="tool-card-cta"
                   style=${{ background: tool.dim, color: tool.color }}
                 >
-                  Explore <span>&#8594;</span>
+                  Explore →
                 </button>
               </div>
             `)}
@@ -544,7 +568,7 @@
               <div class="col-section-label">Key Features</div>
               ${tool.keyFeatures.map((f, i) => h`
                 <div key=${i} class="col-feature">
-                  <span style=${{ color: tool.color, flexShrink: 0, fontSize: '10px', marginTop: '3px' }}>&#9654;</span>
+                  <span style=${{ color: tool.color, flexShrink: 0, fontSize: '10px', marginTop: '3px' }}>▶</span>
                   ${f}
                 </div>
               `)}
@@ -558,7 +582,7 @@
                 class="demo-btn"
                 style=${{ background: tool.color }}
               >
-                Launch Live Demo &#8594;
+                Launch Live Demo →
               </a>
             </div>
 
@@ -568,10 +592,17 @@
     }
 
     // ── APP ──────────────────────────────────────────────────────────────
+    const FONT_SCALES = {
+      S: { '--fs-body': '12px', '--fs-small': '11px' },
+      M: { '--fs-body': '14px', '--fs-small': '12.5px' },
+      L: { '--fs-body': '16.5px', '--fs-small': '14.5px' },
+    }
+
     function App() {
       const slides = [null, ...tools]  // index 0 = home, 1-4 = tools
       const total = slides.length
       const [current, setCurrent] = useState(0)
+      const [fontSize, setFontSize] = useState('M')
 
       const navigate = useCallback((idx) => {
         if (idx >= 0 && idx < total) setCurrent(idx)
@@ -606,9 +637,9 @@
 
       return h`
         <div>
-          <${NavBar} current=${current} total=${total} tools=${tools} onNavigate=${navigate} />
+          <${NavBar} current=${current} total=${total} tools=${tools} onNavigate=${navigate} fontSize=${fontSize} onFontSize=${setFontSize} />
 
-          <div class="slides-viewport">
+          <div class="slides-viewport" style=${FONT_SCALES[fontSize]}>
             <div class="slides-track" style=${{ transform: 'translateX(' + (-current * 100) + 'vw)' }}>
               <${HomeSlide} tools=${tools} onSelectTool=${navigate} />
               ${tools.map(tool => h`<${ToolSlide} key=${tool.id} tool=${tool} />`)}
