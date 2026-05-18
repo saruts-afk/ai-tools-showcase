@@ -408,13 +408,16 @@
 
           <div class="nav-pills">
             <button class=${'nav-pill' + (current === 0 ? ' active' : '')} style=${{ color: current === 0 ? '#fff' : '' }} onClick=${() => onNavigate(0)}>Overview</button>
-            ${tools.map((t, i) => h`
-              <button key=${t.id} class=${'nav-pill' + (current === i+1 ? ' active' : '')}
-                style=${{ color: current === i+1 ? t.color : '', background: current === i+1 ? t.bg : '' }}
-                onClick=${() => onNavigate(i+1)}>
-                ${t.name}
-              </button>
-            `)}
+            ${tools.map((t, i) => {
+              const isActive = current === i+1 || current === i+5
+              return h`
+                <button key=${t.id} class=${'nav-pill' + (isActive ? ' active' : '')}
+                  style=${{ color: isActive ? t.color : '', background: isActive ? t.bg : '' }}
+                  onClick=${() => onNavigate(i+1)}>
+                  ${t.name}
+                </button>
+              `
+            })}
           </div>
 
           <div class="nav-right">
@@ -483,8 +486,87 @@
       `
     }
 
+    // ── TOOL FEATURES SLIDE ─────────────────────────────────────────────
+    function ToolFeaturesSlide({ tool, onBack }) {
+      return h`
+        <div class="slide tool-slide bg-grid" style=${{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 6vw' }}>
+
+          <div style=${{ position: 'absolute', top: '20%', left: '10%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, ' + tool.shadow + ' 0%, transparent 65%)', pointerEvents: 'none', opacity: 0.6 }} />
+
+          <div style=${{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '960px' }}>
+
+            <!-- Header -->
+            <div style=${{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px' }}>
+              <div class="tool-slide-icon" style=${{ background: tool.bg }}>
+                ${ICONS[tool.id](tool.color)}
+              </div>
+              <div>
+                <div style=${{ fontSize: '22px', fontWeight: 700, letterSpacing: '-0.5px', color: '#fff' }}>${tool.name}</div>
+                <div style=${{ fontSize: '13px', color: tool.color, fontWeight: 500, marginTop: '2px' }}>${tool.tagline}</div>
+              </div>
+              <div style=${{ marginLeft: 'auto' }}>
+                <button
+                  onClick=${onBack}
+                  style=${{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', color: 'rgba(255,255,255,0.6)', fontSize: '13px', padding: '7px 16px', cursor: 'pointer' }}
+                >← Back to Overview</button>
+              </div>
+            </div>
+
+            <div style=${{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', marginBottom: '20px' }}>Key Features</div>
+
+            <!-- 2x2 Feature Cards Grid -->
+            <div style=${{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '28px' }}>
+              ${tool.keyFeatures.map((feat, i) => h`
+                <div key=${i} style=${{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: '14px',
+                  padding: '22px 24px',
+                  display: 'flex',
+                  gap: '16px',
+                  alignItems: 'flex-start',
+                  transition: 'border-color 0.2s',
+                }}>
+                  <div style=${{
+                    width: '36px', height: '36px', borderRadius: '10px',
+                    background: tool.dim, color: tool.color,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: '16px', fontWeight: 800, flexShrink: 0,
+                  }}>${i + 1}</div>
+                  <div style=${{ fontSize: '14px', lineHeight: 1.55, color: 'rgba(255,255,255,0.88)', paddingTop: '8px' }}>${feat}</div>
+                </div>
+              `)}
+            </div>
+
+            <!-- Demo CTA -->
+            <div style=${{ textAlign: 'center' }}>
+              <a
+                href=${tool.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style=${{
+                  display: 'inline-flex', alignItems: 'center', gap: '10px',
+                  background: tool.color, color: '#fff',
+                  padding: '15px 40px', borderRadius: '50px',
+                  fontSize: '16px', fontWeight: 700,
+                  textDecoration: 'none', letterSpacing: '-0.2px',
+                  boxShadow: '0 8px 32px ' + tool.shadow,
+                  transition: 'opacity 0.2s, transform 0.2s',
+                }}
+                onMouseEnter=${e => { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'scale(1.03)' }}
+                onMouseLeave=${e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1)' }}
+              >
+                Launch Live Demo →
+              </a>
+            </div>
+
+          </div>
+        </div>
+      `
+    }
+
     // ── TOOL DETAIL SLIDE ────────────────────────────────────────────────
-    function ToolSlide({ tool }) {
+    function ToolSlide({ tool, onShowFeatures }) {
       const colColors = {
         problem: '#ff5c5c',
         solution: '#34d399',
@@ -565,15 +647,18 @@
                 </div>
               `)}
 
-              <div class="col-section-label">Key Features</div>
-              ${tool.keyFeatures.map((f, i) => h`
-                <div key=${i} class="col-feature">
-                  <span style=${{ color: tool.color, flexShrink: 0, fontSize: '10px', marginTop: '3px' }}>▶</span>
-                  ${f}
-                </div>
-              `)}
-
               <div class="col-spacer" />
+
+              <button
+                onClick=${onShowFeatures}
+                style=${{
+                  width: '100%', padding: '11px 0', borderRadius: '10px',
+                  background: tool.dim, border: '1px solid ' + tool.color + '40',
+                  color: tool.color, fontSize: '13px', fontWeight: 600,
+                  cursor: 'pointer', marginBottom: '10px',
+                  letterSpacing: '-0.1px',
+                }}
+              >View Key Features →</button>
 
               <a
                 href=${tool.demoUrl}
@@ -599,8 +684,8 @@
     }
 
     function App() {
-      const slides = [null, ...tools]  // index 0 = home, 1-4 = tools
-      const total = slides.length
+      // slides: 0=home, 1-4=detail, 5-8=features
+      const total = 9
       const [current, setCurrent] = useState(0)
       const [fontSize, setFontSize] = useState('M')
 
@@ -633,7 +718,8 @@
       }, [current, navigate])
 
       const progressPct = (current / (total - 1)) * 100
-      const activeTool = current > 0 ? tools[current - 1] : null
+      const activeTool = current >= 1 && current <= 4 ? tools[current - 1]
+                       : current >= 5 ? tools[current - 5] : null
 
       return h`
         <div>
@@ -642,7 +728,12 @@
           <div class="slides-viewport" style=${FONT_SCALES[fontSize]}>
             <div class="slides-track" style=${{ transform: 'translateX(' + (-current * 100) + 'vw)' }}>
               <${HomeSlide} tools=${tools} onSelectTool=${navigate} />
-              ${tools.map(tool => h`<${ToolSlide} key=${tool.id} tool=${tool} />`)}
+              ${tools.map((tool, i) => h`
+                <${ToolSlide} key=${tool.id} tool=${tool} onShowFeatures=${() => navigate(i + 5)} />
+              `)}
+              ${tools.map((tool, i) => h`
+                <${ToolFeaturesSlide} key=${'feat-' + tool.id} tool=${tool} onBack=${() => navigate(i + 1)} />
+              `)}
             </div>
           </div>
 
