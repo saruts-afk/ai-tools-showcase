@@ -1,639 +1,625 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Tools — Team Showcase</title>
+  <title>AoV TH AI Tools</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body, #root { height: 100%; font-family: 'Inter', system-ui, sans-serif; }
-    body { background: #070711; color: white; overflow-x: hidden; }
+    html, body { height: 100%; overflow: hidden; font-family: 'Inter', system-ui, sans-serif; background: #06060f; color: #fff; -webkit-font-smoothing: antialiased; }
 
+    /* ── NAV ─────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px;
+      background: rgba(6,6,15,0.85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav-logo {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.02em;
+      color: rgba(255,255,255,0.9); cursor: pointer; white-space: nowrap;
+    }
+    .nav-pills { display: flex; gap: 4px; align-items: center; }
+    .nav-pill {
+      padding: 4px 12px; border-radius: 8px; font-size: 11px; font-weight: 600;
+      cursor: pointer; border: none; transition: all 0.2s; background: transparent;
+      color: rgba(255,255,255,0.35);
+    }
+    .nav-pill.active { color: #fff; }
+    .nav-arrows { display: flex; gap: 6px; }
+    .nav-arrow {
+      width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.7);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; transition: all 0.2s;
+    }
+    .nav-arrow:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .nav-arrow:disabled { opacity: 0.2; cursor: default; }
+
+    /* ── SLIDE SYSTEM ────────────────────────────────── */
+    .slides-viewport { position: fixed; top: 52px; left: 0; right: 0; bottom: 0; overflow: hidden; }
+    .slides-track {
+      display: flex; height: 100%;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+    .slide { width: 100vw; height: 100%; flex-shrink: 0; overflow: hidden; }
+
+    /* ── BG GRID ─────────────────────────────────────── */
     .bg-grid {
       background-image:
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
     }
-    .text-gradient {
-      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.55) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+
+    /* ── HOME SLIDE ──────────────────────────────────── */
+    .home-slide {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 0 40px; gap: 40px;
     }
-    .glass {
-      background: rgba(255,255,255,0.04);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.08);
+    .home-header { text-align: center; }
+    .home-eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); margin-bottom: 14px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; display: inline-block; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .home-title {
+      font-size: clamp(44px, 6vw, 72px); font-weight: 900; letter-spacing: -0.03em;
+      line-height: 1.05; margin-bottom: 14px;
+      background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.5) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .home-sub { font-size: 16px; color: rgba(255,255,255,0.38); font-weight: 400; }
 
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-    .pulse { animation: pulse 2s ease-in-out infinite; }
-    @keyframes float-x { 0%,100%{transform:translateX(0)} 50%{transform:translateX(6px)} }
-    .float-x { animation: float-x 1.4s ease-in-out infinite; }
-
-    .page { position: fixed; inset: 0; overflow-y: auto; }
-    .fade-enter { animation: fadeIn 0.35s ease forwards; }
-    .fade-exit { animation: fadeOut 0.3s ease forwards; }
-    @keyframes fadeIn { from { opacity:0; transform:translateX(24px) } to { opacity:1; transform:translateX(0) } }
-    @keyframes fadeOut { from { opacity:1; transform:translateX(0) } to { opacity:0; transform:translateX(-24px) } }
-
+    /* ── TOOL CARDS (HOME) ───────────────────────────── */
+    .tool-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; width: 100%; max-width: 1160px; }
     .tool-card {
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      background: rgba(255,255,255,0.04);
+      border-radius: 20px; padding: 24px 22px; cursor: pointer;
+      background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 24px;
-      padding: 28px;
-      text-align: left;
-      display: block;
-      width: 100%;
-      color: white;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      display: flex; flex-direction: column; gap: 10px;
+      position: relative; overflow: hidden;
     }
-    .tool-card:hover { transform: scale(1.02); }
+    .tool-card:hover { transform: translateY(-4px); }
+    .tool-card-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tool-card-icon svg { width: 26px; height: 26px; }
+    .tool-card-name { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+    .tool-card-tagline { font-size: 12px; font-weight: 500; line-height: 1.5; }
+    .tool-card-points { list-style: none; display: flex; flex-direction: column; gap: 5px; margin-top: 4px; flex: 1; }
+    .tool-card-points li { font-size: 11.5px; color: rgba(255,255,255,0.38); line-height: 1.4; display: flex; gap: 6px; }
+    .tool-card-points li::before { content: '▸'; flex-shrink: 0; opacity: 0.5; }
+    .tool-card-cta {
+      margin-top: 6px; display: flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 700; padding: 9px 14px; border-radius: 10px;
+      border: none; cursor: pointer; transition: all 0.2s; align-self: flex-start;
+    }
+    @keyframes slide-right { 0%,100%{transform:translateX(0)} 50%{transform:translateX(4px)} }
+    .tool-card-cta:hover span { animation: slide-right 1s ease-in-out infinite; }
 
-    .feature-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 24px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* ── TOOL DETAIL SLIDE ───────────────────────────── */
+    .tool-slide { display: flex; flex-direction: column; }
+    .tool-slide-head {
+      padding: 22px 32px 16px; display: flex; align-items: center; gap: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;
     }
-    .feature-card:hover { transform: scale(1.02); }
+    .tool-slide-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .tool-slide-icon svg { width: 22px; height: 22px; }
+    .tool-slide-name { font-size: 28px; font-weight: 900; letter-spacing: -0.03em; line-height: 1; }
+    .tool-slide-tagline { font-size: 13px; font-weight: 500; margin-top: 3px; opacity: 0.9; }
+    .tool-slide-badge {
+      margin-left: auto; display: flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 8px;
+      background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.25);
+      font-size: 11px; font-weight: 700; color: #34d399; white-space: nowrap; flex-shrink: 0;
+    }
+    .tool-slide-body {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      flex: 1; min-height: 0;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .col {
+      padding: 20px 20px 16px; display: flex; flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,0.05); overflow: hidden;
+    }
+    .col:last-child { border-right: none; }
+    .col-accent { height: 2px; border-radius: 1px; margin-bottom: 14px; flex-shrink: 0; }
+    .col-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-bottom: 12px; flex-shrink: 0;
+    }
+    .col-items { display: flex; flex-direction: column; gap: 0; flex: 1; min-height: 0; overflow: hidden; }
+    .col-item {
+      display: flex; align-items: flex-start; gap: 9px; padding: 7px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12.5px;
+      color: rgba(255,255,255,0.62); line-height: 1.45;
+    }
+    .col-item:last-child { border-bottom: none; }
+    .col-item-dot { flex-shrink: 0; width: 4px; height: 4px; border-radius: 50%; margin-top: 6px; }
+    .col-step {
+      display: flex; align-items: flex-start; gap: 10px; padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px;
+      color: rgba(255,255,255,0.62); line-height: 1.45;
+    }
+    .col-step:last-child { border-bottom: none; }
+    .col-step-num {
+      width: 18px; height: 18px; border-radius: 6px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 800; margin-top: 1px;
+    }
+    .col-section-label {
+      font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25); margin: 12px 0 6px; flex-shrink: 0;
+    }
+    .col-feature {
+      display: flex; align-items: flex-start; gap: 7px; padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 11.5px;
+      color: rgba(255,255,255,0.5); line-height: 1.4;
+    }
+    .col-feature:last-child { border-bottom: none; }
+    .col-spacer { flex: 1; }
+    .demo-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 16px; border-radius: 11px; border: none; cursor: pointer;
+      font-size: 13px; font-weight: 700; color: white;
+      transition: all 0.2s; text-decoration: none; flex-shrink: 0; margin-top: 12px;
+    }
+    .demo-btn:hover { filter: brightness(1.15); transform: translateY(-1px); }
 
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 12px;
-      padding: 18px 36px; border-radius: 16px;
-      font-weight: 700; font-size: 18px; color: white;
-      border: none; cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.2s ease;
-      text-decoration: none;
-    }
-    .btn-primary:hover { transform: scale(1.03); }
+    /* ── SLIDE PROGRESS BAR ──────────────────────────── */
+    .progress-bar { height: 2px; background: rgba(255,255,255,0.06); position: fixed; bottom: 0; left: 0; right: 0; }
+    .progress-fill { height: 100%; transition: width 0.6s cubic-bezier(0.16,1,0.3,1); }
 
-    .section-block {
-      border-radius: 20px;
-      margin-bottom: 20px;
-      overflow: hidden;
-    }
-    .section-header {
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .section-body { padding: 20px 24px; }
-    .section-body li {
-      display: flex; align-items: flex-start; gap: 12px;
-      margin-bottom: 12px;
-      font-size: 14px; color: rgba(255,255,255,0.65);
-      line-height: 1.6;
-    }
-    .section-body li:last-child { margin-bottom: 0; }
-
-    .topbar {
-      position: sticky; top: 0; z-index: 20;
-      padding: 16px 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      background: rgba(7,7,17,0.88);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .back-btn {
-      background: none; border: none; color: rgba(255,255,255,0.45);
-      font-size: 14px; cursor: pointer; padding: 6px 0;
-      transition: color 0.2s;
-    }
-    .back-btn:hover { color: white; }
-
-    .tool-nav-pill {
-      border: none; cursor: pointer; border-radius: 10px;
-      padding: 6px 12px; font-size: 12px; font-weight: 600;
-      transition: all 0.2s;
+    /* ── TOUCH / SWIPE HINT ──────────────────────────── */
+    .slide-hint {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      font-size: 11px; color: rgba(255,255,255,0.18); pointer-events: none;
+      white-space: nowrap;
     }
 
-    .ready-badge {
-      display: flex; align-items: center; gap: 16px;
-      padding: 20px; border-radius: 20px;
-      background: rgba(52,211,153,0.08);
-      border: 1px solid rgba(52,211,153,0.25);
-      margin-bottom: 24px;
+    @media (max-width: 900px) {
+      .tool-cards { grid-template-columns: repeat(2, 1fr); }
+      .tool-slide-body { grid-template-columns: repeat(2, 1fr); }
     }
-
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
-
-    .tool-nav-row { display: flex; align-items: center; gap: 8px; }
-    @media (max-width: 640px) { .tool-nav-row { display: none; } }
-
-    .cover-floats { display: flex; }
-    @media (max-width: 768px) { .cover-floats { display: none; } }
   </style>
 </head>
 <body>
   <div id="root"></div>
-
   <script type="module">
-    import React, { useState, useEffect, useRef } from 'https://esm.sh/react@18'
+    import React, { useState, useEffect, useCallback } from 'https://esm.sh/react@18'
     import { createRoot } from 'https://esm.sh/react-dom@18/client'
     import htm from 'https://esm.sh/htm@3'
     const h = htm.bind(React.createElement)
 
-    // â”€â”€â”€ DATA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── SVG ICONS (no emoji encoding issues) ──────────────────────────────
+    const IconLive = (color) => h`<svg viewBox="0 0 24 24" fill="none" stroke=${color} stroke-width="1.8" stroke-linecap="round">
+      <circle cx="12" cy="16" r="1.8" fill=${color} stroke="none"/>
+      <path d="M9 13a4.5 4.5 0 0 1 6 0"/>
+      <path d="M5.5 9.5a9 9 0 0 1 13 0"/>
+    </svg>`
+
+    const IconBug = (color) => h`<svg viewBox="0 0 24 24" fill="none" stroke=${color} stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="12" cy="13.5" rx="3" ry="4.5"/>
+      <path d="M10 8.5V7a2 2 0 0 1 4 0v1.5"/>
+      <path d="M9 9.5l-2.5-2M15 9.5l2.5-2"/>
+      <path d="M6 12.5H4M20 12.5h-2"/>
+      <path d="M6 16H4M20 16h-2"/>
+    </svg>`
+
+    const IconSurvey = (color) => h`<svg viewBox="0 0 24 24" fill="none" stroke=${color} stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="12" width="4" height="9" rx="1"/>
+      <rect x="9.5" y="7" width="4" height="14" rx="1"/>
+      <rect x="16" y="3" width="4" height="18" rx="1"/>
+    </svg>`
+
+    const IconElo = (color) => h`<svg viewBox="0 0 24 24" fill="none" stroke=${color} stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 3h12v11a6 6 0 0 1-12 0z"/>
+      <path d="M6 7H3v4a3 3 0 0 0 3 3M18 7h3v4a3 3 0 0 1-3 3"/>
+      <path d="M12 17v4M9 21h6"/>
+    </svg>`
+
+    const ICONS = { livestream: IconLive, bug: IconBug, survey: IconSurvey, elo: IconElo }
+
+    // ── TOOLS DATA ────────────────────────────────────────────────────────
     const tools = [
       {
         id: 'livestream',
         name: 'Livestream',
-        tagline: 'Track KOL performance across all platforms',
-        description: 'One dashboard for TikTok, YouTube & Facebook live data â€” powered by AI',
-        color: '#f43f5e', shadow: 'rgba(244,63,94,0.35)', bg: 'rgba(244,63,94,0.09)',
-        emoji: 'ðŸ“¡',
+        tagline: 'Track every KOL. Every platform. In real time.',
+        cardPoints: ['Auto-track TikTok, YouTube & Facebook', 'AI-generated reports in one click', 'Per-channel dashboards & metrics'],
+        color: '#ff3b5c', shadow: 'rgba(255,59,92,0.3)', bg: 'rgba(255,59,92,0.1)', dim: 'rgba(255,59,92,0.18)',
         painPoints: [
-          "Manually tracking each KOL's livestream performance is time-consuming",
-          "Hard to quickly see the overall livestream performance report",
-          "Data is scattered across TikTok, YouTube, and Facebook",
+          'Hours wasted tracking KOL performance across platforms manually',
+          'No single view of overall livestream performance',
+          'Data locked in TikTok, YouTube & Facebook silos — never in one place',
         ],
         solutions: [
-          "Auto-crawl livestream data from Facebook, YouTube, and TikTok",
-          "Track performance by selected interval and tags",
-          "Dashboard showing overall + per-streamer stats: Avg CV, PCV, Live Period",
-          "Dedicated dashboard for each KOL or channel",
-          "AI generates summary reports from live data with optional extra context",
+          'Auto-crawl livestream data from TikTok, YouTube & Facebook',
+          'Filter and track by tags and custom time intervals',
+          'Unified dashboard: overall + per-streamer stats (Avg CV, PCV, live duration)',
+          'Dedicated performance view for each KOL or channel',
+          'One-click AI report from live session data',
         ],
         benefits: [
-          "Faster and more accurate livestream data tracking",
-          "Easier to monitor KOL and channel performance at a glance",
-          "Reduces manual checking across platforms",
-          "Speeds up report creation dramatically",
+          'Instant cross-platform visibility — no more tab-switching',
+          'AI reports in seconds, not hours of manual work',
+          'Monitor any KOL or channel from a single dashboard',
+          'More time for strategy, less time on data wrangling',
+        ],
+        howToUse: [
+          { n: '1', text: 'Create a team — define members, settings & tracking config' },
+          { n: '2', text: 'Enable Live Tracking Module for the team' },
+          { n: '3', text: 'Create a session, set config, then monitor live & generate report' },
         ],
         keyFeatures: [
-          { emoji: 'ðŸŒ', title: 'Multi-Platform Tracking', desc: 'TikTok, YouTube, Facebook in one unified live view' },
-          { emoji: 'ðŸ·ï¸', title: 'Tag-based Filtering', desc: 'Track overall + streamer performance by tags' },
-          { emoji: 'ðŸ“Š', title: 'Key Metrics Dashboard', desc: 'Avg CV, PCV, Live Period auto-calculated' },
-          { emoji: 'ðŸ¤–', title: 'AI Report Generator', desc: 'One-click summary reports from live session data' },
+          'Multi-platform: TikTok, YouTube, Facebook in one view',
+          'Tag-based: track overall + per-streamer performance',
+          'Key metrics: Avg CV, PCV, Live Period auto-calculated',
+          'AI report generator from live + optional extra context',
         ],
         demoUrl: 'https://campaign-space.web.app/team/O3ClYt9izVSN38mMZldZ/liveTracking',
       },
       {
         id: 'bug',
         name: 'Bug Tracker',
-        tagline: 'One source of truth for all bug reports',
-        description: 'AI duplicate detection, SeaTalk bot integration & public case page',
-        color: '#f97316', shadow: 'rgba(249,115,22,0.35)', bg: 'rgba(249,115,22,0.09)',
-        emoji: 'ðŸ›',
+        tagline: 'One place for every bug. Zero duplicates. Always updated.',
+        cardPoints: ['AI detects duplicates before submission', 'SeaTalk bot: report bugs from chat', 'Public case page for player reports'],
+        color: '#ff6b35', shadow: 'rgba(255,107,53,0.3)', bg: 'rgba(255,107,53,0.1)', dim: 'rgba(255,107,53,0.18)',
         painPoints: [
-          "Bug reports are scattered across sheets",
-          "Duplicate bugs are created with different wording",
-          "Hard to collect more case details from players",
-          "Hard to report bugs when the team is out of office",
-          "Regional team does not receive active bug updates",
+          'Bug reports scattered across multiple spreadsheets with no single source of truth',
+          'Duplicates created constantly because no AI check exists',
+          'Hard to get structured case details from players who found the bug',
+          'Impossible to report new bugs when the team is out of office',
+          'Regional teams miss active updates and are always out of the loop',
         ],
         solutions: [
-          "One Bug Tracking Module as the single source of truth",
-          "Three inputs: internal tracker, public case page, and SeaTalk bot",
-          "AI warns about possible duplicates before a report is even created",
-          "Players can submit structured case details for specific bugs",
-          "SeaTalk bot lets anyone report, update, query, and summarize bugs anytime",
+          'One unified Bug Tracker as the single source of truth for every report',
+          'Three input channels: internal tracker, public case page & SeaTalk bot',
+          'AI automatically detects potential duplicates before any report is submitted',
+          'Players submit structured case details through a public-facing page',
+          'SeaTalk bot lets anyone report, update, query & summarize bugs anytime',
         ],
         benefits: [
-          "Makes bug tracking more flexible and easier to manage",
-          "Keeps all bug reports in one shared place",
-          "Reduces duplicate reports and manual cleanup work",
-          "Makes player case collection easier for the team",
-          "Helps Regional team get faster, real-time updates",
+          'All bugs in one place — never lose a report again',
+          'AI eliminates duplicate noise before it clutters the tracker',
+          'Players contribute case details directly, saving investigation time',
+          'Report bugs 24/7 via SeaTalk — even outside office hours',
+          'Regional teams get real-time updates without asking anyone',
+        ],
+        howToUse: [
+          { n: '1', text: 'Create a team — own your bugs, members & settings' },
+          { n: '2', text: 'Enable Bug Tracking Module & connect your SeaTalk group' },
+          { n: '3', text: 'Report via internal tracker, public page, or SeaTalk bot' },
+          { n: '4', text: 'All reports merge into one shared, always-up-to-date record' },
         ],
         keyFeatures: [
-          { emoji: 'ðŸ¤–', title: 'SeaTalk Bot Commands', desc: 'Report, update & check bug status directly in chat' },
-          { emoji: 'âœ¨', title: 'Smart Duplicate Check', desc: 'AI flags potential duplicates before you submit' },
-          { emoji: 'ðŸŒ', title: 'Public Case Collection', desc: 'Open page for players to submit case details' },
-          { emoji: 'ðŸ””', title: 'Instant Notifications', desc: 'Real-time alerts when new bugs are reported' },
-          { emoji: 'ðŸ“‹', title: 'Manager Summaries', desc: 'Built-in queue overviews â€” no scrolling needed' },
+          'SeaTalk bot: report, update & check bug status via chat',
+          'AI smart duplicate detection before submission',
+          'Public case collection page for player submissions',
+          'Manager queue summaries — no manual scrolling needed',
         ],
         demoUrl: 'https://campaign-space.web.app/team/O3ClYt9izVSN38mMZldZ/bugTracker',
       },
       {
         id: 'survey',
         name: 'Survey Analyzer',
-        tagline: 'AI-powered survey insights & visualization',
-        description: 'Turn raw survey responses into charts, summaries & translated reports',
-        color: '#3b82f6', shadow: 'rgba(59,130,246,0.35)', bg: 'rgba(59,130,246,0.09)',
-        emoji: 'ðŸ“Š',
+        tagline: 'From raw responses to insights in one click.',
+        cardPoints: ['Auto-translate TH to ZH or EN', 'Heatmaps & histograms in seconds', 'AI summaries from key question prompts'],
+        color: '#3b8bff', shadow: 'rgba(59,139,255,0.3)', bg: 'rgba(59,139,255,0.1)', dim: 'rgba(59,139,255,0.18)',
         painPoints: [
-          "Creating survey data visualizations manually is time-consuming",
-          "Hard to quickly see the overall survey results and key feedback summary",
-          "Translating survey results for Regional or TC review takes extra time",
+          'Building visualizations from survey data takes too long to do manually',
+          'Hard to quickly extract the key insight from hundreds of responses',
+          'Translating results into Chinese or English for regional review adds extra hours',
         ],
         solutions: [
-          "Visualization tool combining Teasurvey responses with the question template",
-          "Auto-translate results into desired language (TH â†’ ZH or EN)",
-          "Generate histograms and heatmaps for selected questions",
-          "AI generates charts and summaries from key question prompts",
+          'Combine Teasurvey responses with the question template automatically',
+          'Auto-translate results into any target language — TH to ZH or EN',
+          'Generate histograms & heatmaps for any selected question set',
+          'AI creates charts and narrative summaries from your key question prompts',
         ],
         benefits: [
-          "Helps the team quickly understand overall survey results",
-          "Provides quick answers to survey hypotheses and key questions",
-          "Reduces manual work when processing and translating responses",
+          'Understand full survey results in minutes, not days',
+          'Instantly answer hypotheses with AI-driven analysis',
+          'Eliminate manual translation and chart-building work',
+        ],
+        howToUse: [
+          { n: '1', text: 'Create a team & set up the Survey Analyzer tool inside it' },
+          { n: '2', text: 'Upload your survey questions and response data' },
+          { n: '3', text: 'Check mapping, then generate charts, summaries & translated reports' },
         ],
         keyFeatures: [
-          { emoji: 'ðŸ—ºï¸', title: 'Data Visualization', desc: 'Heatmaps & histograms with up to 3 data dimensions' },
-          { emoji: 'âš¡', title: 'One-click Report', desc: 'Prompt key questions or hypotheses to prove from the data' },
-          { emoji: 'ðŸŒ', title: 'Auto Translation', desc: 'Auto-translate results TH â†’ ZH or EN for regional review' },
-          { emoji: 'ðŸ’¡', title: 'AI-Generated Summaries', desc: 'Instant narrative insights from your question prompts' },
+          'Heatmaps & histograms — up to 3 data dimensions',
+          'One-click report with custom question prompts or hypotheses',
+          'Auto-translation: TH to ZH or EN for regional review',
+          'AI-generated narrative summaries from any question set',
         ],
         demoUrl: 'https://campaign-space.web.app/team/O3ClYt9izVSN38mMZldZ/tool/zjiRCGHpqFEmYCPPgtDb?tab=main',
       },
       {
         id: 'elo',
         name: 'Elo Checker',
-        tagline: 'Auto-detect suspicious elo boosting patterns',
-        description: 'Convert Zeppelin exports into clear, explainable ban evidence in minutes',
-        color: '#a855f7', shadow: 'rgba(168,85,247,0.35)', bg: 'rgba(168,85,247,0.09)',
-        emoji: 'ðŸ†',
+        tagline: 'Turn match data into clear, explainable ban evidence.',
+        cardPoints: ['Auto-generate Zeppelin SQL queries', 'Flags: win rates, opponents, KDA', 'Export ban list with full evidence'],
+        color: '#a855f7', shadow: 'rgba(168,85,247,0.3)', bg: 'rgba(168,85,247,0.1)', dim: 'rgba(168,85,247,0.18)',
         painPoints: [
-          "Time-consuming to review banned cases when players report suspected elo boosting",
-          "Suspicious patterns are hard to spot in raw Zeppelin CSV exports",
-          "Ban list preparation takes too much time",
-          "Spreadsheet review is hard to explain to CS or players",
+          'Reviewing suspected elo boosting cases takes hours of manual effort',
+          'Suspicious patterns are invisible inside raw Zeppelin CSV exports',
+          'Preparing a ban list is a slow, tedious, error-prone process',
+          'Hard to explain spreadsheet findings to CS teams or players in appeals',
         ],
         solutions: [
-          "Convert Zeppelin CSV exports into structured, clear review evidence",
-          "Auto-rank suspicious players and camp candidates by risk score",
-          "Surface key flags: repeated teammates/opponents, win rate, short matches, KDA",
-          "Reviewers mark and export ban candidates with full evidence attached",
+          'Convert Zeppelin CSV exports into clean, structured review evidence automatically',
+          'Auto-rank suspicious players and camp candidates by risk score',
+          'Surface key flags: repeated opponents, win rate, short matches, KDA, grade, hero usage',
+          'Reviewers mark candidates and export a ban list with full supporting evidence',
         ],
         benefits: [
-          "Speeds up banned case checking and appeal review significantly",
-          "Makes the review process more consistent and defensible",
-          "Easier to identify and explain suspicious behavior to CS or players",
-          "Reduces manual checking and ban list preparation time",
-          "Final ban decision always stays under human review",
+          'Case reviews drop from hours to minutes',
+          'Consistent, defensible decisions every single time',
+          'Evidence is visual and easy to explain to CS or players',
+          'Less manual prep — more time on actual judgment calls',
+          'Final ban decision always stays under human review',
+        ],
+        howToUse: [
+          { n: '1', text: 'Create a team & configure thresholds in the Elo Checker tool' },
+          { n: '2', text: 'Generate SQL from the tool, run on Zeppelin, upload the CSV' },
+          { n: '3', text: 'Review auto-flagged suspects and mark ban candidates' },
         ],
         keyFeatures: [
-          { emoji: 'âš™ï¸', title: 'Auto Query Generation', desc: 'Generate Zeppelin SQL from OpenID and date range' },
-          { emoji: 'ðŸŽ›ï¸', title: 'Configurable Criteria', desc: 'Set custom elo boosting signal thresholds and rules' },
-          { emoji: 'ðŸš©', title: 'Suspicious Pattern Flags', desc: 'Win streaks, repeated opponents, short matches, KDA' },
-          { emoji: 'ðŸ”', title: 'Detailed Visualization', desc: 'Clear evidence view for reviewing each suspected booster' },
+          'Auto-generate Zeppelin SQL from OpenID & date range',
+          'Configurable detection rules & boosting signal thresholds',
+          'Key signals: win streaks, repeated opponents, short matches, KDA',
+          'Detailed visualization for each suspected booster',
         ],
         demoUrl: 'https://campaign-space.web.app/team/O3ClYt9izVSN38mMZldZ/tool/WV31ttqQjwHd5QqO6lrV?tab=main',
       },
     ]
 
-    // â”€â”€â”€ ANIMATED SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    function Section({ icon, label, sublabel, accentColor, bgColor, borderColor, items, itemIcon }) {
+    // ── TOP NAV ──────────────────────────────────────────────────────────
+    function NavBar({ current, total, tools, onNavigate }) {
       return h`
-        <div class="section-block" style=${{ background: bgColor, border: '1px solid ' + borderColor }}>
-          <div class="section-header" style=${{ borderBottom: '1px solid ' + borderColor }}>
-            <span style=${{ fontSize: '20px' }}>${icon}</span>
-            <div>
-              <p style=${{ fontWeight: 700, color: 'white', fontSize: '14px' }}>${label}</p>
-              <p style=${{ color: accentColor, fontSize: '12px', opacity: 0.85 }}>${sublabel}</p>
-            </div>
-          </div>
-          <ul class="section-body" style=${{ listStyle: 'none' }}>
-            ${items.map((item, i) => h`
-              <li key=${i}>
-                <span style=${{ fontSize: '15px', flexShrink: 0, marginTop: '1px' }}>${itemIcon}</span>
-                <span>${item}</span>
-              </li>
-            `)}
-          </ul>
-        </div>
-      `
-    }
+        <nav class="nav">
+          <span class="nav-logo" onClick=${() => onNavigate(0)}>AoV TH AI Tools</span>
 
-    // â”€â”€â”€ TOPBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    function TopBar({ activeTool, tools, onBack, onSelectTool, backLabel }) {
-      return h`
-        <div class="topbar">
-          <button class="back-btn" onClick=${onBack}>â† ${backLabel}</button>
-          <div class="tool-nav-row">
-            ${tools.map(t => h`
-              <button
-                key=${t.id}
-                class="tool-nav-pill"
-                onClick=${() => onSelectTool(t.id)}
-                style=${{
-                  background: t.id === activeTool ? t.bg : 'transparent',
-                  color: t.id === activeTool ? t.color : 'rgba(255,255,255,0.35)',
-                  border: t.id === activeTool ? '1px solid ' + t.color + '40' : '1px solid transparent',
-                }}
-              >
-                ${t.emoji} ${t.name}
+          <div class="nav-pills">
+            <button class=${'nav-pill' + (current === 0 ? ' active' : '')} style=${{ color: current === 0 ? '#fff' : '' }} onClick=${() => onNavigate(0)}>Overview</button>
+            ${tools.map((t, i) => h`
+              <button key=${t.id} class=${'nav-pill' + (current === i+1 ? ' active' : '')}
+                style=${{ color: current === i+1 ? t.color : '', background: current === i+1 ? t.bg : '' }}
+                onClick=${() => onNavigate(i+1)}>
+                ${t.name}
               </button>
             `)}
           </div>
-        </div>
+
+          <div class="nav-arrows">
+            <button class="nav-arrow" onClick=${() => onNavigate(current - 1)} disabled=${current === 0}>&#8592;</button>
+            <button class="nav-arrow" onClick=${() => onNavigate(current + 1)} disabled=${current === total - 1}>&#8594;</button>
+          </div>
+        </nav>
       `
     }
 
-    // â”€â”€â”€ COVER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    function Cover({ onStart, animIn }) {
-      const floats = [
-        { emoji: 'ðŸ“¡', name: 'Livestream', color: '#f43f5e', top: '28%', left: '8%' },
-        { emoji: 'ðŸ›', name: 'Bug Tracker', color: '#f97316', top: '25%', right: '8%' },
-        { emoji: 'ðŸ“Š', name: 'Survey', color: '#3b82f6', bottom: '28%', left: '10%' },
-        { emoji: 'ðŸ†', name: 'Elo Checker', color: '#a855f7', bottom: '25%', right: '9%' },
-      ]
+    // ── HOME SLIDE ───────────────────────────────────────────────────────
+    function HomeSlide({ tools, onSelectTool }) {
       return h`
-        <div
-          class=${'page bg-grid fade-enter'}
-          style=${{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', minHeight: '100vh' }}
-          onClick=${onStart}
-        >
-          <div style=${{ position: 'absolute', top: '30%', left: '25%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(168,85,247,0.1) 0%, transparent 70%)', pointerEvents: 'none' }} />
-          <div style=${{ position: 'absolute', bottom: '25%', right: '20%', width: '450px', height: '450px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(244,63,94,0.09) 0%, transparent 70%)', pointerEvents: 'none' }} />
+        <div class="slide home-slide bg-grid">
+          <div style=${{ position: 'absolute', top: '20%', left: '15%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(168,85,247,0.07) 0%, transparent 65%)', pointerEvents: 'none' }} />
+          <div style=${{ position: 'absolute', bottom: '15%', right: '10%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,139,255,0.06) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
-          <div class="cover-floats">
-            ${floats.map((f, i) => h`
-              <div
-                key=${i}
-                style=${{
-                  position: 'absolute',
-                  top: f.top, bottom: f.bottom, left: f.left, right: f.right,
-                  display: 'flex', alignItems: 'center', gap: '8px',
-                  padding: '8px 16px', borderRadius: '999px',
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid ' + f.color + '35',
-                  boxShadow: '0 0 20px ' + f.color + '18',
-                }}
-              >
-                <span style=${{ fontSize: '18px' }}>${f.emoji}</span>
-                <span style=${{ fontSize: '13px', fontWeight: 500, color: 'rgba(255,255,255,0.65)' }}>${f.name}</span>
-              </div>
-            `)}
-          </div>
-
-          <div style=${{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 24px', maxWidth: '640px' }}>
-            <div style=${{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-              padding: '6px 16px', borderRadius: '999px', marginBottom: '32px',
-              background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
-              fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase',
-            }}>
-              <span class="pulse" style=${{ width: '6px', height: '6px', background: '#34d399', borderRadius: '50%', display: 'inline-block' }} />
-              <span style=${{ color: 'rgba(255,255,255,0.5)' }}>Built by our team Â· For every team</span>
+          <div class="home-header" style=${{ position: 'relative', zIndex: 1 }}>
+            <div class="home-eyebrow">
+              <span class="live-dot" />
+              All tools are live and ready to use
             </div>
-
-            <h1 class="text-gradient" style=${{ fontSize: 'clamp(60px, 10vw, 96px)', fontWeight: 900, lineHeight: 1, marginBottom: '20px', letterSpacing: '-2px' }}>
-              AI Tools
-            </h1>
-
-            <p style=${{ fontSize: '18px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, marginBottom: '40px' }}>
-              4 tools built to eliminate manual work,<br/>speed up decisions, and help every team move faster.
-            </p>
-
-            <button
-              onClick=${onStart}
-              style=${{
-                display: 'inline-flex', alignItems: 'center', gap: '12px',
-                padding: '16px 32px', borderRadius: '16px',
-                background: 'white', color: '#070711',
-                fontWeight: 700, fontSize: '16px', border: 'none', cursor: 'pointer',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter=${e => { e.target.style.transform = 'scale(1.04)'; e.target.style.boxShadow = '0 0 40px rgba(255,255,255,0.18)' }}
-              onMouseLeave=${e => { e.target.style.transform = 'scale(1)'; e.target.style.boxShadow = 'none' }}
-            >
-              Explore Our Tools
-              <span class="float-x">â†’</span>
-            </button>
-
-            <p style=${{ marginTop: '20px', fontSize: '12px', color: 'rgba(255,255,255,0.2)' }}>
-              Click anywhere to continue
-            </p>
-          </div>
-        </div>
-      `
-    }
-
-    // â”€â”€â”€ GALLERY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    function ToolsGallery({ tools, onSelectTool, onBack }) {
-      return h`
-        <div class="page bg-grid fade-enter" style=${{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '64px 24px' }}>
-          <div style=${{ textAlign: 'center', marginBottom: '56px' }}>
-            <p style=${{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)', marginBottom: '12px' }}>Team AI Toolkit</p>
-            <h2 class="text-gradient" style=${{ fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 900, marginBottom: '12px' }}>Meet Our 4 AI Tools</h2>
-            <p style=${{ color: 'rgba(255,255,255,0.38)', fontSize: '15px' }}>Click any tool to explore what it solves and how it helps you</p>
+            <h1 class="home-title">AoV TH AI Tools</h1>
+            <p class="home-sub">4 tools built to eliminate manual work and help every team move faster</p>
           </div>
 
-          <div class="grid-2" style=${{ width: '100%', maxWidth: '860px' }}>
-            ${tools.map(tool => h`
-              <button
+          <div class="tool-cards" style=${{ position: 'relative', zIndex: 1 }}>
+            ${tools.map((tool, i) => h`
+              <div
                 key=${tool.id}
                 class="tool-card"
-                onClick=${() => onSelectTool(tool.id)}
-                style=${{ borderColor: tool.color + '20', boxShadow: 'none', position: 'relative', overflow: 'hidden' }}
-                onMouseEnter=${e => { e.currentTarget.style.boxShadow = '0 0 40px ' + tool.shadow; e.currentTarget.style.borderColor = tool.color + '40' }}
-                onMouseLeave=${e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = tool.color + '20' }}
+                style=${{ borderColor: tool.color + '25' }}
+                onClick=${() => onSelectTool(i + 1)}
+                onMouseEnter=${e => { e.currentTarget.style.boxShadow = '0 20px 60px ' + tool.shadow; e.currentTarget.style.borderColor = tool.color + '50' }}
+                onMouseLeave=${e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = tool.color + '25' }}
               >
-                <div style=${{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
-                  <div style=${{
-                    width: '56px', height: '56px', borderRadius: '16px',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '26px', background: tool.bg, border: '1px solid ' + tool.color + '28',
-                  }}>${tool.emoji}</div>
-                  <div style=${{
-                    display: 'flex', alignItems: 'center', gap: '6px',
-                    padding: '4px 10px', borderRadius: '999px', fontSize: '11px', fontWeight: 700,
-                    background: 'rgba(52,211,153,0.12)', color: '#34d399', border: '1px solid rgba(52,211,153,0.22)',
-                  }}>
-                    <span class="pulse" style=${{ width: '6px', height: '6px', background: '#34d399', borderRadius: '50%', display: 'inline-block' }} />
-                    LIVE
-                  </div>
+                <div class="tool-card-icon" style=${{ background: tool.bg }}>
+                  ${ICONS[tool.id](tool.color)}
                 </div>
-
-                <h3 style=${{ fontSize: '22px', fontWeight: 800, color: 'white', marginBottom: '4px' }}>${tool.name}</h3>
-                <p style=${{ fontSize: '13px', fontWeight: 600, color: tool.color, marginBottom: '10px' }}>${tool.tagline}</p>
-                <p style=${{ fontSize: '13px', color: 'rgba(255,255,255,0.38)', lineHeight: 1.6 }}>${tool.description}</p>
-
-                <div style=${{ marginTop: '24px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 600, color: tool.color }}>
-                  <span>Explore this tool</span>
-                  <span class="float-x">â†’</span>
+                <div>
+                  <div class="tool-card-name">${tool.name}</div>
+                  <div class="tool-card-tagline" style=${{ color: tool.color }}>${tool.tagline}</div>
                 </div>
-              </button>
+                <ul class="tool-card-points">
+                  ${tool.cardPoints.map((p, j) => h`<li key=${j}>${p}</li>`)}
+                </ul>
+                <button
+                  class="tool-card-cta"
+                  style=${{ background: tool.dim, color: tool.color }}
+                >
+                  Explore <span>&#8594;</span>
+                </button>
+              </div>
             `)}
           </div>
         </div>
       `
     }
 
-    // â”€â”€â”€ TOOL DETAIL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    function ToolDetail({ tool, tools, onShowFeatures, onBack, onSelectTool }) {
+    // ── TOOL DETAIL SLIDE ────────────────────────────────────────────────
+    function ToolSlide({ tool }) {
+      const colColors = {
+        problem: '#ff5c5c',
+        solution: '#34d399',
+        benefits: '#60a5fa',
+        start: tool.color,
+      }
+
       return h`
-        <div class="page fade-enter bg-grid" style=${{ minHeight: '100vh' }}>
-          <${TopBar} activeTool=${tool.id} tools=${tools} onBack=${onBack} onSelectTool=${onSelectTool} backLabel="All Tools" />
-
-          <div style=${{ maxWidth: '720px', margin: '0 auto', padding: '48px 24px' }}>
-            <div style=${{ marginBottom: '48px' }}>
-              <div style=${{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-                <div style=${{
-                  width: '64px', height: '64px', borderRadius: '20px', fontSize: '30px',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: tool.bg, border: '1px solid ' + tool.color + '30',
-                  flexShrink: 0,
-                }}>${tool.emoji}</div>
-                <div>
-                  <h1 style=${{ fontSize: '36px', fontWeight: 900, color: 'white', lineHeight: 1 }}>${tool.name}</h1>
-                  <p style=${{ fontWeight: 600, color: tool.color, marginTop: '4px' }}>${tool.tagline}</p>
-                </div>
-              </div>
-              <p style=${{ color: 'rgba(255,255,255,0.42)', fontSize: '15px', lineHeight: 1.7, paddingLeft: '80px' }}>${tool.description}</p>
+        <div class="slide tool-slide bg-grid">
+          <div class="tool-slide-head">
+            <div class="tool-slide-icon" style=${{ background: tool.bg }}>
+              ${ICONS[tool.id](tool.color)}
             </div>
-
-            <${Section}
-              icon="ðŸ˜¤" label="Pain Points" sublabel="What's slowing the team down"
-              accentColor="#f87171" bgColor="rgba(248,113,113,0.07)" borderColor="rgba(248,113,113,0.2)"
-              items=${tool.painPoints} itemIcon="âš ï¸"
-            />
-            <${Section}
-              icon="ðŸ’¡" label="Our Solution" sublabel="How this tool solves it"
-              accentColor="#34d399" bgColor="rgba(52,211,153,0.07)" borderColor="rgba(52,211,153,0.2)"
-              items=${tool.solutions} itemIcon="âœ…"
-            />
-            <${Section}
-              icon="ðŸš€" label="What You Gain" sublabel="Real outcomes for your team"
-              accentColor="#60a5fa" bgColor="rgba(96,165,250,0.07)" borderColor="rgba(96,165,250,0.2)"
-              items=${tool.benefits} itemIcon="âš¡"
-            />
-
-            <div class="ready-badge">
-              <div style=${{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(52,211,153,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>âœ…</div>
-              <div style=${{ flex: 1 }}>
-                <p style=${{ fontWeight: 600, color: '#34d399', fontSize: '14px' }}>Tool Status: Ready to Use</p>
-                <p style=${{ fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginTop: '2px' }}>This tool is live and available for your team right now</p>
-              </div>
-              <div style=${{
-                display: 'flex', alignItems: 'center', gap: '6px',
-                padding: '4px 12px', borderRadius: '999px',
-                background: 'rgba(52,211,153,0.15)', color: '#34d399',
-                fontSize: '12px', fontWeight: 700, flexShrink: 0,
-              }}>
-                <span class="pulse" style=${{ width: '6px', height: '6px', background: '#34d399', borderRadius: '50%', display: 'inline-block' }} />
-                LIVE
-              </div>
+            <div>
+              <div class="tool-slide-name">${tool.name}</div>
+              <div class="tool-slide-tagline" style=${{ color: tool.color }}>${tool.tagline}</div>
             </div>
-
-            <button
-              class="btn-primary"
-              onClick=${onShowFeatures}
-              style=${{ background: tool.color, width: '100%', justifyContent: 'center', fontSize: '17px' }}
-              onMouseEnter=${e => { e.currentTarget.style.boxShadow = '0 0 30px ' + tool.shadow; e.currentTarget.style.transform = 'scale(1.02)' }}
-              onMouseLeave=${e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'scale(1)' }}
-            >
-              See Key Features & Live Demo
-              <span class="float-x">â†’</span>
-            </button>
+            <div class="tool-slide-badge">
+              <span class="live-dot" />
+              Ready to Use
+            </div>
           </div>
-        </div>
-      `
-    }
 
-    // â”€â”€â”€ KEY FEATURES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    function KeyFeatures({ tool, tools, onBack, onSelectTool }) {
-      return h`
-        <div class="page fade-enter bg-grid" style=${{ minHeight: '100vh' }}>
-          <${TopBar} activeTool=${tool.id} tools=${tools} onBack=${onBack} onSelectTool=${onSelectTool} backLabel="Back to Overview" />
+          <div class="tool-slide-body">
 
-          <div style=${{ maxWidth: '720px', margin: '0 auto', padding: '48px 24px' }}>
-            <div style=${{ marginBottom: '40px' }}>
-              <div style=${{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                <span style=${{ fontSize: '36px' }}>${tool.emoji}</span>
-                <div>
-                  <p style=${{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)' }}>Key Features</p>
-                  <h2 style=${{ fontSize: '32px', fontWeight: 900, color: 'white', lineHeight: 1 }}>${tool.name}</h2>
-                </div>
+            <!-- PROBLEM -->
+            <div class="col">
+              <div class="col-accent" style=${{ background: colColors.problem }} />
+              <div class="col-title">The Problem</div>
+              <div class="col-items">
+                ${tool.painPoints.map((p, i) => h`
+                  <div key=${i} class="col-item">
+                    <span class="col-item-dot" style=${{ background: colColors.problem }} />
+                    ${p}
+                  </div>
+                `)}
               </div>
-              <div style=${{ height: '1px', background: 'linear-gradient(90deg, ' + tool.color + '60, transparent)', marginTop: '20px' }} />
             </div>
 
-            <div class="grid-2" style=${{ marginBottom: '48px' }}>
-              ${tool.keyFeatures.map((f, i) => h`
-                <div
-                  key=${i}
-                  class="feature-card"
-                  style=${{ borderColor: tool.color + '20' }}
-                  onMouseEnter=${e => { e.currentTarget.style.boxShadow = '0 0 24px ' + tool.shadow; e.currentTarget.style.transform = 'scale(1.02)' }}
-                  onMouseLeave=${e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'scale(1)' }}
-                >
-                  <div style=${{
-                    width: '48px', height: '48px', borderRadius: '14px', fontSize: '24px',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: tool.bg, border: '1px solid ' + tool.color + '25', marginBottom: '16px',
-                  }}>${f.emoji}</div>
-                  <h4 style=${{ fontWeight: 700, color: 'white', marginBottom: '8px' }}>${f.title}</h4>
-                  <p style=${{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.6 }}>${f.desc}</p>
+            <!-- SOLUTION -->
+            <div class="col">
+              <div class="col-accent" style=${{ background: colColors.solution }} />
+              <div class="col-title">Our Solution</div>
+              <div class="col-items">
+                ${tool.solutions.map((s, i) => h`
+                  <div key=${i} class="col-item">
+                    <span class="col-item-dot" style=${{ background: colColors.solution }} />
+                    ${s}
+                  </div>
+                `)}
+              </div>
+            </div>
+
+            <!-- BENEFITS -->
+            <div class="col">
+              <div class="col-accent" style=${{ background: colColors.benefits }} />
+              <div class="col-title">What You Gain</div>
+              <div class="col-items">
+                ${tool.benefits.map((b, i) => h`
+                  <div key=${i} class="col-item">
+                    <span class="col-item-dot" style=${{ background: colColors.benefits }} />
+                    ${b}
+                  </div>
+                `)}
+              </div>
+            </div>
+
+            <!-- GET STARTED -->
+            <div class="col">
+              <div class="col-accent" style=${{ background: tool.color }} />
+              <div class="col-title">Get Started</div>
+
+              <div class="col-section-label">How to Use</div>
+              ${tool.howToUse.map((step, i) => h`
+                <div key=${i} class="col-step">
+                  <span class="col-step-num" style=${{ background: tool.dim, color: tool.color }}>${step.n}</span>
+                  ${step.text}
                 </div>
               `)}
-            </div>
 
-            <div style=${{ height: '1px', background: 'rgba(255,255,255,0.06)', marginBottom: '40px' }} />
+              <div class="col-section-label">Key Features</div>
+              ${tool.keyFeatures.map((f, i) => h`
+                <div key=${i} class="col-feature">
+                  <span style=${{ color: tool.color, flexShrink: 0, fontSize: '10px', marginTop: '3px' }}>&#9654;</span>
+                  ${f}
+                </div>
+              `)}
 
-            <div style=${{ textAlign: 'center' }}>
-              <p style=${{ color: 'rgba(255,255,255,0.35)', fontSize: '14px', marginBottom: '24px' }}>Ready to see it in action?</p>
+              <div class="col-spacer" />
 
               <a
                 href=${tool.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn-primary"
-                style=${{ background: 'linear-gradient(135deg, ' + tool.color + ', ' + tool.color + 'cc)', margin: '0 auto' }}
-                onMouseEnter=${e => { e.currentTarget.style.boxShadow = '0 0 50px ' + tool.shadow; e.currentTarget.style.transform = 'scale(1.04)' }}
-                onMouseLeave=${e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'scale(1)' }}
+                class="demo-btn"
+                style=${{ background: tool.color }}
               >
-                ðŸš€ Launch Live Demo
-                <span class="float-x">â†’</span>
+                Launch Live Demo &#8594;
               </a>
-
-              <p style=${{ color: 'rgba(255,255,255,0.18)', fontSize: '12px', marginTop: '12px' }}>Opens in a new tab</p>
             </div>
 
-            <div style=${{ marginTop: '64px', paddingTop: '32px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-              <p style=${{ color: 'rgba(255,255,255,0.22)', fontSize: '12px' }}>Explore other tools</p>
-              <div style=${{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                ${tools.filter(t => t.id !== tool.id).map(t => h`
-                  <button
-                    key=${t.id}
-                    onClick=${() => onSelectTool(t.id)}
-                    style=${{
-                      padding: '6px 14px', borderRadius: '10px', fontSize: '12px', fontWeight: 500,
-                      background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-                      color: 'rgba(255,255,255,0.42)', cursor: 'pointer', transition: 'all 0.2s',
-                    }}
-                    onMouseEnter=${e => { e.currentTarget.style.color = 'white'; e.currentTarget.style.borderColor = t.color + '40' }}
-                    onMouseLeave=${e => { e.currentTarget.style.color = 'rgba(255,255,255,0.42)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
-                  >${t.emoji} ${t.name}</button>
-                `)}
-              </div>
-            </div>
           </div>
         </div>
       `
     }
 
-    // â”€â”€â”€ APP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── APP ──────────────────────────────────────────────────────────────
     function App() {
-      const [page, setPage] = useState('cover')
-      const [activeTool, setActiveTool] = useState(null)
-      const currentTool = tools.find(t => t.id === activeTool)
+      const slides = [null, ...tools]  // index 0 = home, 1-4 = tools
+      const total = slides.length
+      const [current, setCurrent] = useState(0)
 
-      const selectTool = (id) => { setActiveTool(id); setPage('detail') }
-      const goBack = () => {
-        if (page === 'features') setPage('detail')
-        else if (page === 'detail') setPage('gallery')
-        else if (page === 'gallery') setPage('cover')
-      }
+      const navigate = useCallback((idx) => {
+        if (idx >= 0 && idx < total) setCurrent(idx)
+      }, [total])
+
+      useEffect(() => {
+        const onKey = (e) => {
+          if (e.key === 'ArrowRight') navigate(current + 1)
+          if (e.key === 'ArrowLeft') navigate(current - 1)
+        }
+        window.addEventListener('keydown', onKey)
+        return () => window.removeEventListener('keydown', onKey)
+      }, [current, navigate])
+
+      // Touch/swipe support
+      useEffect(() => {
+        let startX = null
+        const onTouchStart = (e) => { startX = e.touches[0].clientX }
+        const onTouchEnd = (e) => {
+          if (startX === null) return
+          const dx = startX - e.changedTouches[0].clientX
+          if (Math.abs(dx) > 60) navigate(dx > 0 ? current + 1 : current - 1)
+          startX = null
+        }
+        window.addEventListener('touchstart', onTouchStart, { passive: true })
+        window.addEventListener('touchend', onTouchEnd, { passive: true })
+        return () => { window.removeEventListener('touchstart', onTouchStart); window.removeEventListener('touchend', onTouchEnd) }
+      }, [current, navigate])
+
+      const progressPct = (current / (total - 1)) * 100
+      const activeTool = current > 0 ? tools[current - 1] : null
 
       return h`
-        <div style=${{ minHeight: '100vh', background: '#070711', color: 'white' }}>
-          ${page === 'cover' && h`<${Cover} key="cover" onStart=${() => setPage('gallery')} />`}
-          ${page === 'gallery' && h`<${ToolsGallery} key="gallery" tools=${tools} onSelectTool=${selectTool} onBack=${goBack} />`}
-          ${page === 'detail' && currentTool && h`<${ToolDetail} key=${'detail-' + activeTool} tool=${currentTool} tools=${tools} onShowFeatures=${() => setPage('features')} onBack=${goBack} onSelectTool=${selectTool} />`}
-          ${page === 'features' && currentTool && h`<${KeyFeatures} key=${'features-' + activeTool} tool=${currentTool} tools=${tools} onBack=${goBack} onSelectTool=${selectTool} />`}
+        <div>
+          <${NavBar} current=${current} total=${total} tools=${tools} onNavigate=${navigate} />
+
+          <div class="slides-viewport">
+            <div class="slides-track" style=${{ transform: 'translateX(' + (-current * 100) + 'vw)' }}>
+              <${HomeSlide} tools=${tools} onSelectTool=${navigate} />
+              ${tools.map(tool => h`<${ToolSlide} key=${tool.id} tool=${tool} />`)}
+            </div>
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress-fill" style=${{ width: progressPct + '%', background: activeTool ? activeTool.color : 'rgba(255,255,255,0.3)' }} />
+          </div>
+
+          <div class="slide-hint">Use ← → arrow keys or swipe to navigate</div>
         </div>
       `
     }
@@ -642,4 +628,3 @@
   </script>
 </body>
 </html>
-
