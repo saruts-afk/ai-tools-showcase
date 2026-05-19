@@ -24,7 +24,7 @@
     }
     .nav-pills { display: flex; gap: 4px; align-items: center; }
     .nav-pill {
-      padding: 4px 12px; border-radius: 8px; font-size: 11px; font-weight: 600;
+      padding: 5px 14px; border-radius: 8px; font-size: 13px; font-weight: 600;
       cursor: pointer; border: none; transition: all 0.2s; background: transparent;
       color: rgba(255,255,255,0.35);
     }
@@ -39,19 +39,6 @@
     }
     .nav-arrow:hover { background: rgba(255,255,255,0.1); color: #fff; }
     .nav-arrow:disabled { opacity: 0.2; cursor: default; }
-    .font-toggle {
-      display: flex; align-items: center; gap: 2px;
-      border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; overflow: hidden;
-    }
-    .font-btn {
-      padding: 4px 9px; background: rgba(255,255,255,0.04); border: none;
-      color: rgba(255,255,255,0.6); cursor: pointer; font-family: 'Inter', sans-serif;
-      font-weight: 700; transition: all 0.2s; border-right: 1px solid rgba(255,255,255,0.08);
-      line-height: 1;
-    }
-    .font-btn:last-child { border-right: none; }
-    .font-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
-    .font-btn.active { background: rgba(255,255,255,0.12); color: #fff; }
 
     /* ── SLIDE SYSTEM ────────────────────────────────── */
     .slides-viewport { position: fixed; top: 52px; left: 0; right: 0; bottom: 0; overflow: hidden; }
@@ -93,9 +80,9 @@
     .home-sub { font-size: 16px; color: rgba(255,255,255,0.38); font-weight: 400; }
 
     /* ── TOOL CARDS (HOME) ───────────────────────────── */
-    .tool-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; width: 100%; max-width: 1160px; }
+    .tool-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; width: 100%; max-width: 1400px; }
     .tool-card {
-      border-radius: 20px; padding: 24px 22px; cursor: pointer;
+      border-radius: 20px; padding: 32px 26px; cursor: pointer;
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.08);
       transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
@@ -108,7 +95,7 @@
       display: flex; align-items: center; justify-content: center;
     }
     .tool-card-icon svg { width: 26px; height: 26px; }
-    .tool-card-name { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+    .tool-card-name { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
     .tool-card-tagline { font-size: 12px; font-weight: 500; line-height: 1.5; }
     .tool-card-points { list-style: none; display: flex; flex-direction: column; gap: 5px; margin-top: 4px; flex: 1; }
     .tool-card-points li { font-size: 11.5px; color: rgba(255,255,255,0.38); line-height: 1.4; display: flex; gap: 6px; }
@@ -158,22 +145,22 @@
     }
     .bento-stripe { width: 3px; height: 18px; border-radius: 2px; flex-shrink: 0; }
     .bento-label {
-      font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
+      font-size: 15px; font-weight: 800; letter-spacing: -0.01em;
+      color: rgba(255,255,255,0.92);
     }
     .bento-items { display: flex; flex-direction: column; gap: 6px; flex: 1; min-height: 0; overflow: hidden; }
     .bento-item {
       display: flex; align-items: flex-start; gap: 10px;
-      padding: 8px 11px; border-radius: 9px;
-      background: rgba(255,255,255,0.04);
-      font-size: var(--fs-body, 13px); color: rgba(255,255,255,0.72); line-height: 1.42;
+      padding: 10px 13px; border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      font-size: 14px; color: rgba(255,255,255,0.88); line-height: 1.6;
     }
     .bento-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
     .bento-step {
       display: flex; align-items: flex-start; gap: 10px;
-      padding: 7px 10px; border-radius: 9px;
-      background: rgba(255,255,255,0.04);
-      font-size: var(--fs-body, 13px); color: rgba(255,255,255,0.72); line-height: 1.42;
+      padding: 10px 12px; border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      font-size: 14px; color: rgba(255,255,255,0.88); line-height: 1.6;
     }
     .bento-step-num {
       width: 20px; height: 20px; border-radius: 7px; flex-shrink: 0;
@@ -200,9 +187,31 @@
       white-space: nowrap;
     }
 
+    @media (max-width: 1100px) {
+      .tool-bento { padding: 10px 16px 14px; gap: 10px; }
+      .bento-item { font-size: 13px; }
+      .bento-step { font-size: 13px; }
+      .bento-label { font-size: 13px; }
+    }
     @media (max-width: 900px) {
       .tool-cards { grid-template-columns: repeat(2, 1fr); }
-      .tool-slide-body { grid-template-columns: repeat(2, 1fr); }
+      .nav { padding: 0 16px; }
+      .nav-pill { padding: 4px 10px; font-size: 12px; }
+      .tool-slide-head { padding: 14px 20px 12px; gap: 12px; }
+      .tool-slide-name { font-size: 22px; }
+      .tool-slide-tagline { font-size: 12px; }
+      .tool-bento { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav-pills { gap: 2px; }
+      .nav-pill { padding: 3px 8px; font-size: 11px; }
+      .tool-bento { grid-template-columns: 1fr; grid-template-rows: auto; overflow-y: auto; padding: 8px 12px 12px; }
+      .tool-cards { grid-template-columns: 1fr 1fr; }
+      .home-slide { padding: 0 20px; gap: 24px; }
+    }
+    @media (max-width: 480px) {
+      .nav-pills { display: none; }
+      .tool-cards { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -249,48 +258,48 @@
         id: 'livestream',
         name: 'Livestream',
         tagline: 'Track every KOL. Every platform. In real time.',
-        cardPoints: ['Auto-track TikTok, YouTube & Facebook', 'AI-generated reports in one click', 'Per-channel dashboards & metrics'],
+        cardPoints: ['Auto-track TikTok, YouTube & Facebook', 'One-click AI reports', 'Per-channel dashboards'],
         color: '#ff3b5c', shadow: 'rgba(255,59,92,0.3)', bg: 'rgba(255,59,92,0.1)', dim: 'rgba(255,59,92,0.18)',
         painPoints: [
-          'Hours wasted tracking KOL performance across platforms manually',
-          'No single view of overall livestream performance',
-          'Data locked in TikTok, YouTube & Facebook silos — never in one place',
+          'Checking KOL stats across 3 platforms manually takes hours',
+          'No single place to see all livestream results',
+          'TikTok, YouTube and Facebook data never comes together',
         ],
         solutions: [
-          'Auto-crawl livestream data from TikTok, YouTube & Facebook',
-          'Filter and track by tags and custom time intervals',
-          'Unified dashboard: overall + per-streamer stats (Avg CV, PCV, live duration)',
-          'Dedicated performance view for each KOL or channel',
-          'One-click AI report from live session data',
+          'Pulls data from TikTok, YouTube and Facebook automatically',
+          'Filter by tags and custom time ranges',
+          'One dashboard for team overview and individual streamer stats',
+          'Drill down into any KOL or channel',
+          'Generate an AI report from live data in one click',
         ],
         benefits: [
-          'Instant cross-platform visibility — no more tab-switching',
-          'AI reports in seconds, not hours of manual work',
-          'Monitor any KOL or channel from a single dashboard',
-          'More time for strategy, less time on data wrangling',
+          'See all platforms at once, no tab switching',
+          'Reports done in seconds instead of hours',
+          'All KOLs tracked in one place',
+          'Less data work, more time on strategy',
         ],
         howToUse: [
-          { n: '1', text: 'Create a team — define members, settings & tracking config' },
-          { n: '2', text: 'Enable Live Tracking Module for the team' },
-          { n: '3', text: 'Create a session, set config, then monitor live & generate report' },
+          { n: '1', text: 'Create a team and set up your tracking config' },
+          { n: '2', text: 'Enable the Live Tracking module' },
+          { n: '3', text: 'Start a session, monitor live, then generate your report' },
         ],
         keyFeatures: [],
         features: [
           {
             title: 'Track Livestream Performance Data',
             points: [
-              'Tag-based: track overall + per-streamer performance',
-              'Multi-platform: TikTok, YouTube & Facebook in one view',
+              'Track by tag: team overview and individual streamers',
+              'TikTok, YouTube and Facebook in one view',
               'Key metrics: Avg CV, PCV, Live Period',
             ],
             image: 'images/livestream-tracking.png',
           },
           {
-            title: 'Auto-Generate Report from Live Data',
+            title: 'Auto-Generate Reports from Live Data',
             points: [
-              'AI-generated insights from live session data',
-              'Add additional context for richer executive summaries',
-              'Export as PDF or download raw CSV instantly',
+              'Pulls insights straight from your live session',
+              'Add context to enrich the summary',
+              'Export as PDF or CSV instantly',
             ],
             image: 'images/livestream-report.png',
           },
@@ -301,41 +310,41 @@
         id: 'bug',
         name: 'Bug Tracker',
         tagline: 'One place for every bug. Zero duplicates. Always updated.',
-        cardPoints: ['AI detects duplicates before submission', 'SeaTalk bot: report bugs from chat', 'Public case page for player reports'],
+        cardPoints: ['AI flags duplicates before submission', 'Report bugs straight from SeaTalk', 'Public case page for player reports'],
         color: '#ff6b35', shadow: 'rgba(255,107,53,0.3)', bg: 'rgba(255,107,53,0.1)', dim: 'rgba(255,107,53,0.18)',
         painPoints: [
-          'Bug reports scattered across multiple spreadsheets with no single source of truth',
-          'Duplicates created constantly because no AI check exists',
-          'Hard to get structured case details from players who found the bug',
-          'Impossible to report new bugs when the team is out of office',
-          'Regional teams miss active updates and are always out of the loop',
+          'Bug reports spread across spreadsheets with no single source of truth',
+          'Duplicates pile up because nothing checks before submission',
+          'Players cannot easily give you the case details you need',
+          'No way to report bugs outside office hours',
+          'Regional teams are always the last to know',
         ],
         solutions: [
-          'One unified Bug Tracker as the single source of truth for every report',
-          'Three input channels: internal tracker, public case page & SeaTalk bot',
-          'AI automatically detects potential duplicates before any report is submitted',
-          'Players submit structured case details through a public-facing page',
-          'SeaTalk bot lets anyone report, update, query & summarize bugs anytime',
+          'One tracker for every bug report, no exceptions',
+          'Three ways to submit: internal tracker, public page, or SeaTalk bot',
+          'AI flags duplicates before they get submitted',
+          'Players fill in bug details through a public page',
+          'SeaTalk bot works 24/7 for reporting, updates and queries',
         ],
         benefits: [
-          'All bugs in one place — never lose a report again',
-          'AI eliminates duplicate noise before it clutters the tracker',
-          'Players contribute case details directly, saving investigation time',
-          'Report bugs 24/7 via SeaTalk — even outside office hours',
-          'Regional teams get real-time updates without asking anyone',
+          'All bugs in one place, nothing gets lost',
+          'No more duplicate noise cluttering the tracker',
+          'Players give you the details, saving investigation time',
+          'Report bugs 24/7, even when the team is offline',
+          'Regional teams stay updated without chasing anyone',
         ],
         howToUse: [
-          { n: '1', text: 'Create a team — own your bugs, members & settings' },
-          { n: '2', text: 'Enable Bug Tracking Module & connect your SeaTalk group' },
-          { n: '3', text: 'Report via internal tracker, public page, or SeaTalk bot' },
-          { n: '4', text: 'All reports merge into one shared, always-up-to-date record' },
+          { n: '1', text: 'Create a team and configure your settings' },
+          { n: '2', text: 'Enable Bug Tracker and connect your SeaTalk group' },
+          { n: '3', text: 'Submit bugs via tracker, public page, or SeaTalk bot' },
+          { n: '4', text: 'All reports flow into one shared, live record' },
         ],
         keyFeatures: [],
         features: [
-          { title: 'SeaTalk Bot Commands', points: ['Report, update & check bug status directly from chat'], image: 'images/bug-report-bug.png' },
-          { title: 'Smart Duplicate Check', points: ['AI detects potential duplicates before any report is submitted'], image: 'images/bug-duplicate.png' },
-          { title: 'Public Case Collection', points: ['Open website for players to submit structured bug cases'], image: 'images/bug-collection.png' },
-          { title: 'Manager Summaries', points: ['Built-in SeaTalk summaries — see queue state without scrolling'], image: 'images/bug-summaries.png' },
+          { title: 'SeaTalk Bot Commands', points: ['Report, update and check bug status from chat'], image: 'images/bug-report-bug.png' },
+          { title: 'Smart Duplicate Check', points: ['Flags duplicates before anything gets submitted'], image: 'images/bug-duplicate.png' },
+          { title: 'Public Case Collection', points: ['Players submit bug details through a public webpage'], image: 'images/bug-collection.png' },
+          { title: 'Manager Summaries', points: ['Get a queue summary in SeaTalk without digging through reports'], image: 'images/bug-summaries.png' },
         ],
         demoUrl: 'https://campaign-space.web.app/team/O3ClYt9izVSN38mMZldZ/bugTracker',
       },
@@ -343,33 +352,33 @@
         id: 'survey',
         name: 'Survey Analyzer',
         tagline: 'From raw responses to insights in one click.',
-        cardPoints: ['Auto-translate TH to ZH or EN', 'Heatmaps & histograms in seconds', 'AI summaries from key question prompts'],
+        cardPoints: ['Auto-translate TH to ZH or EN', 'Heatmaps & histograms in seconds', 'AI summaries from your key questions'],
         color: '#3b8bff', shadow: 'rgba(59,139,255,0.3)', bg: 'rgba(59,139,255,0.1)', dim: 'rgba(59,139,255,0.18)',
         painPoints: [
-          'Building visualizations from survey data takes too long to do manually',
-          'Hard to quickly extract the key insight from hundreds of responses',
-          'Translating results into Chinese or English for regional review adds extra hours',
+          'Building charts from survey data takes too long manually',
+          'Finding the key insight in hundreds of responses is exhausting',
+          'Translating results for regional teams adds extra hours',
         ],
         solutions: [
-          'Combine Teasurvey responses with the question template automatically',
-          'Auto-translate results into any target language — TH to ZH or EN',
-          'Generate histograms & heatmaps for any selected question set',
-          'AI creates charts and narrative summaries from your key question prompts',
+          'Auto-matches Teasurvey responses to your question template',
+          'Auto-translates results from TH to ZH or EN',
+          'Generates histograms and heatmaps for any question set',
+          'AI writes chart summaries from your key questions',
         ],
         benefits: [
-          'Understand full survey results in minutes, not days',
-          'Instantly answer hypotheses with AI-driven analysis',
-          'Eliminate manual translation and chart-building work',
+          'Full survey results in minutes, not days',
+          'Answer hypotheses instantly with AI analysis',
+          'No more manual translation or chart building',
         ],
         howToUse: [
-          { n: '1', text: 'Create a team & set up the Survey Analyzer tool inside it' },
-          { n: '2', text: 'Upload your survey questions and response data' },
-          { n: '3', text: 'Check mapping, then generate charts, summaries & translated reports' },
+          { n: '1', text: 'Create a team and add the Survey Analyzer tool' },
+          { n: '2', text: 'Upload your survey questions and responses' },
+          { n: '3', text: 'Verify the mapping, then generate charts and reports' },
         ],
         keyFeatures: [],
         features: [
-          { title: 'Data Visualization', points: ['Create heatmap and histogram from chosen data', 'Auto-translate into English or Chinese'], image: 'images/survey-visualize.png' },
-          { title: 'One-Click Report', points: ['AI-recommended focus options included', 'Generates comprehensive insights automatically'], images: ['images/survey-report1.png', 'images/survey-report2.png', 'images/survey-report3.png'] },
+          { title: 'Data Visualization', points: ['Heatmaps and histograms from any question set', 'Auto-translate into English or Chinese'], image: 'images/survey-visualize.png' },
+          { title: 'One-Click Report', points: ['AI picks the focus areas for you', 'Full insights generated automatically'], images: ['images/survey-report1.png', 'images/survey-report2.png', 'images/survey-report3.png'] },
         ],
         demoUrl: 'https://campaign-space.web.app/team/O3ClYt9izVSN38mMZldZ/tool/zjiRCGHpqFEmYCPPgtDb?tab=main',
       },
@@ -380,33 +389,33 @@
         cardPoints: ['Auto-generate Zeppelin SQL queries', 'Flags: win rates, opponents, KDA', 'Export ban list with full evidence'],
         color: '#a855f7', shadow: 'rgba(168,85,247,0.3)', bg: 'rgba(168,85,247,0.1)', dim: 'rgba(168,85,247,0.18)',
         painPoints: [
-          'Reviewing suspected elo boosting cases takes hours of manual effort',
-          'Suspicious patterns are invisible inside raw Zeppelin CSV exports',
-          'Preparing a ban list is a slow, tedious, error-prone process',
-          'Hard to explain spreadsheet findings to CS teams or players in appeals',
+          'Reviewing elo boosting cases takes hours of manual work',
+          'Suspicious patterns are invisible in raw Zeppelin CSVs',
+          'Building a ban list is slow, tedious, and error-prone',
+          'Hard to explain spreadsheet findings to CS or players',
         ],
         solutions: [
-          'Convert Zeppelin CSV exports into clean, structured review evidence automatically',
-          'Auto-rank suspicious players and camp candidates by risk score',
-          'Surface key flags: repeated opponents, win rate, short matches, KDA, grade, hero usage',
-          'Reviewers mark candidates and export a ban list with full supporting evidence',
+          'Turns Zeppelin CSVs into clean, structured evidence',
+          'Auto-ranks suspects by risk score',
+          'Surfaces key flags: repeated opponents, win rate, short matches, KDA',
+          'Mark ban candidates and export with full evidence',
         ],
         benefits: [
-          'Case reviews drop from hours to minutes',
-          'Consistent, defensible decisions every single time',
-          'Evidence is visual and easy to explain to CS or players',
-          'Less manual prep — more time on actual judgment calls',
-          'Final ban decision always stays under human review',
+          'Reviews drop from hours to minutes',
+          'Consistent, defensible decisions every time',
+          'Evidence is visual and easy to explain',
+          'Less prep work, more time on actual judgment',
+          'Final ban decision always stays with you',
         ],
         howToUse: [
-          { n: '1', text: 'Create a team & configure thresholds in the Elo Checker tool' },
-          { n: '2', text: 'Generate SQL from the tool, run on Zeppelin, upload the CSV' },
-          { n: '3', text: 'Review auto-flagged suspects and mark ban candidates' },
+          { n: '1', text: 'Create a team and set your detection thresholds' },
+          { n: '2', text: 'Generate the SQL, run on Zeppelin, upload the CSV' },
+          { n: '3', text: 'Review flagged suspects and mark your ban candidates' },
         ],
         keyFeatures: [],
         features: [
           { title: 'Auto-Generate Zeppelin Query', points: ['Select OpenID & date range to build SQL instantly', 'Run directly in Zeppelin — no manual query writing'], image: 'images/Elo-query.png' },
-          { title: 'Configurable Detection Rules', points: ['Set boosting signals: win streaks, opponent diversity, short matches', 'Tune thresholds per signal to match your criteria'], image: 'images/Elo-config.png' },
+          { title: 'Configurable Detection Rules', points: ['Set Elo boosting signals: Many wins in short matches, Repeated opponents, Missing player rows', 'Tune thresholds per signal to match your criteria'], image: 'images/Elo-config.png' },
           { title: 'Detailed Suspect Visualization', points: ['Per-player breakdown of all boosting signals', 'Mark ban candidates and export with full evidence'], image: 'images/Elo-report.png' },
         ],
         demoUrl: 'https://campaign-space.web.app/team/O3ClYt9izVSN38mMZldZ/tool/WV31ttqQjwHd5QqO6lrV?tab=main',
@@ -414,8 +423,7 @@
     ]
 
     // ── TOP NAV ──────────────────────────────────────────────────────────
-    function NavBar({ current, tools, onNavigate, navigateMain, mainIdx, fontSize, onFontSize }) {
-      const sizes = ['S', 'M', 'L']
+    function NavBar({ current, tools, onNavigate, navigateMain }) {
       return h`
         <nav class="nav">
           <span class="nav-logo" onClick=${() => onNavigate(0)}>AoV TH AI Tools</span>
@@ -423,11 +431,11 @@
           <div class="nav-pills">
             <button class=${'nav-pill' + (current === 0 ? ' active' : '')} style=${{ color: current === 0 ? '#fff' : '' }} onClick=${() => onNavigate(0)}>Overview</button>
             ${tools.map((t, i) => {
-              const isActive = current === i+1 || current === i+5
+              const isActive = current === i + 1
               return h`
                 <button key=${t.id} class=${'nav-pill' + (isActive ? ' active' : '')}
                   style=${{ color: isActive ? t.color : '', background: isActive ? t.bg : '' }}
-                  onClick=${() => onNavigate(i+1)}>
+                  onClick=${() => onNavigate(i + 1)}>
                   ${t.name}
                 </button>
               `
@@ -435,16 +443,9 @@
           </div>
 
           <div class="nav-right">
-            <div class="font-toggle" title="Text size">
-              ${sizes.map(s => h`
-                <button key=${s} class=${'font-btn' + (fontSize === s ? ' active' : '')}
-                  style=${{ fontSize: s === 'S' ? '10px' : s === 'M' ? '12px' : '14px' }}
-                  onClick=${() => onFontSize(s)}>A</button>
-              `)}
-            </div>
             <div class="nav-arrows">
-              <button class="nav-arrow" onClick=${() => navigateMain(-1)} disabled=${current === 0 && mainIdx === 0}>←</button>
-              <button class="nav-arrow" onClick=${() => navigateMain(1)}  disabled=${mainIdx === 4 && current <= 4}>→</button>
+              <button class="nav-arrow" onClick=${() => navigateMain(-1)} disabled=${current === 0}>←</button>
+              <button class="nav-arrow" onClick=${() => navigateMain(1)} disabled=${current === 4}>→</button>
             </div>
           </div>
         </nav>
@@ -560,130 +561,9 @@
       `
     }
 
-    // ── TOOL FEATURES SLIDE ─────────────────────────────────────────────
-    function ToolFeaturesSlide({ tool, onBack }) {
-      return h`
-        <div class="slide tool-slide bg-grid">
-
-          <!-- Same ambient glow as detail slide -->
-          <div style=${{ position: 'absolute', top: '-100px', right: '-100px', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, ' + tool.shadow + ' 0%, transparent 65%)', pointerEvents: 'none', opacity: 0.5 }} />
-
-          <!-- Header — identical structure to ToolSlide -->
-          <div class="tool-slide-head" style=${{ background: 'linear-gradient(135deg, ' + tool.bg + ' 0%, transparent 100%)', borderBottom: '1px solid ' + tool.color + '20' }}>
-            <div class="tool-slide-icon" style=${{ background: tool.dim }}>
-              ${ICONS[tool.id](tool.color)}
-            </div>
-            <div>
-              <div class="tool-slide-name" style=${{ background: 'linear-gradient(90deg, #fff 0%, ' + tool.color + ' 200%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>${tool.name}</div>
-              <div class="tool-slide-tagline" style=${{ color: tool.color }}>${tool.tagline}</div>
-            </div>
-            <div style=${{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
-              <div class="tool-slide-badge">
-                <span class="live-dot" />
-                Key Features
-              </div>
-              <button
-                onClick=${onBack}
-                style=${{
-                  display: 'flex', alignItems: 'center', gap: '6px',
-                  padding: '6px 14px', borderRadius: '9px',
-                  background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
-                  color: 'rgba(255,255,255,0.6)', fontSize: '12px', fontWeight: 700,
-                  cursor: 'pointer', letterSpacing: '-0.1px',
-                }}
-              >← Overview</button>
-            </div>
-          </div>
-
-          <!-- Feature content — image layout if tool.features exists, bento grid otherwise -->
-          <div style=${{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', padding: '14px 24px 16px', gap: '12px' }}>
-
-            ${tool.features && tool.features.length ? h`
-              <!-- IMAGE LAYOUT: one row per feature -->
-              <!-- VERTICAL CARDS — columns adapt to feature count -->
-              <div style=${{
-                flex: 1, minHeight: 0, display: 'grid', gap: '12px',
-                gridTemplateColumns: (n => Array(n<=2?n:n===4?2:3).fill('1fr').join(' '))(tool.features.length),
-                gridTemplateRows: (n => { const c=n<=2?n:n===4?2:3; return Array(Math.ceil(n/c)).fill('1fr').join(' ') })(tool.features.length),
-              }}>
-                ${tool.features.map((feat, i) => h`
-                  <div key=${i} style=${{
-                    display: 'flex', flexDirection: 'column', gap: '12px',
-                    background: 'rgba(255,255,255,0.025)',
-                    border: '1px solid ' + tool.color + '20',
-                    borderRadius: '16px', overflow: 'hidden',
-                    padding: '18px',
-                  }}>
-                    <!-- Title -->
-                    <div style=${{ flexShrink: 0, display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                      <div style=${{ width: '26px', height: '26px', borderRadius: '8px', background: tool.dim, color: tool.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 800, flexShrink: 0, marginTop: '2px' }}>${i + 1}</div>
-                      <div style=${{ fontSize: '22px', fontWeight: 800, color: '#fff', letterSpacing: '-0.4px', lineHeight: 1.25 }}>${feat.title}</div>
-                    </div>
-
-                    <!-- Image(s) -->
-                    ${feat.images
-                      ? h`<${ImageCarousel} images=${feat.images} title=${feat.title} color=${tool.color} />`
-                      : h`
-                        <div style=${{ flex: 1, minHeight: 0, borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflowY: 'auto' }}>
-                          <img src=${feat.image} alt=${feat.title} style=${{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' }} />
-                        </div>
-                      `
-                    }
-
-                    <!-- Bullet points -->
-                    <div style=${{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                      ${feat.points.map((p, j) => h`
-                        <div key=${j} style=${{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: 'var(--fs-body, 13px)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.4 }}>
-                          <span style=${{ width: '4px', height: '4px', borderRadius: '50%', background: tool.color, flexShrink: 0, marginTop: '6px' }} />
-                          ${p}
-                        </div>
-                      `)}
-                    </div>
-                  </div>
-                `)}
-              </div>
-            ` : h`
-              <!-- BENTO GRID fallback for tools without images -->
-              <div style=${{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: '12px', flex: 1, minHeight: 0 }}>
-                ${tool.keyFeatures.map((feat, i) => h`
-                  <div key=${i} class="bento-cell" style=${{ borderColor: tool.color + '22' }}>
-                    <div class="bento-cell-num">${'0' + (i + 1)}</div>
-                    <div class="bento-cell-head">
-                      <div class="bento-stripe" style=${{ background: tool.color }} />
-                      <div class="bento-label" style=${{ color: tool.color }}>Feature ${i + 1}</div>
-                    </div>
-                    <div style=${{ fontSize: 'var(--fs-body, 13px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.5, flex: 1 }}>${feat}</div>
-                  </div>
-                `)}
-              </div>
-            `}
-
-            <!-- Demo CTA — full width at bottom -->
-            <a
-              href=${tool.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style=${{
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
-                padding: '14px', borderRadius: '14px',
-                background: tool.color, color: '#fff',
-                fontSize: '15px', fontWeight: 700,
-                textDecoration: 'none', letterSpacing: '-0.2px',
-                boxShadow: '0 6px 24px ' + tool.shadow,
-                flexShrink: 0,
-                transition: 'filter 0.2s, transform 0.2s',
-              }}
-              onMouseEnter=${e => { e.currentTarget.style.filter = 'brightness(1.12)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-              onMouseLeave=${e => { e.currentTarget.style.filter = 'brightness(1)'; e.currentTarget.style.transform = 'translateY(0)' }}
-            >Launch Live Demo →</a>
-          </div>
-
-        </div>
-      `
-    }
-
-    // ── TOOL DETAIL SLIDE ────────────────────────────────────────────────
-    function ToolSlide({ tool, onShowFeatures }) {
+    // ── TOOL CONTAINER (overview + key features, shared sticky header) ──
+    function ToolContainer({ tool }) {
+      const [showFeatures, setShowFeatures] = useState(false)
       const C = { problem: '#ff5c5c', solution: '#34d399', benefits: '#60a5fa' }
 
       return h`
@@ -692,7 +572,7 @@
           <!-- Ambient glow -->
           <div style=${{ position: 'absolute', top: '-100px', right: '-100px', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, ' + tool.shadow + ' 0%, transparent 65%)', pointerEvents: 'none', opacity: 0.5 }} />
 
-          <!-- Header -->
+          <!-- STICKY HEADER — never moves between panels -->
           <div class="tool-slide-head" style=${{ background: 'linear-gradient(135deg, ' + tool.bg + ' 0%, transparent 100%)', borderBottom: '1px solid ' + tool.color + '20' }}>
             <div class="tool-slide-icon" style=${{ background: tool.dim }}>
               ${ICONS[tool.id](tool.color)}
@@ -701,128 +581,196 @@
               <div class="tool-slide-name" style=${{ background: 'linear-gradient(90deg, #fff 0%, ' + tool.color + ' 200%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>${tool.name}</div>
               <div class="tool-slide-tagline" style=${{ color: tool.color }}>${tool.tagline}</div>
             </div>
-            <div style=${{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
-              <div class="tool-slide-badge">
-                <span class="live-dot" />
-                Ready to Use
+            <div style=${{ marginLeft: 'auto', flexShrink: 0 }}>
+              <div style=${{ display: 'flex', borderRadius: '10px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden' }}>
+                <button
+                  onClick=${() => setShowFeatures(false)}
+                  style=${{
+                    padding: '8px 20px', border: 'none', borderRight: '1px solid rgba(255,255,255,0.08)',
+                    cursor: showFeatures ? 'pointer' : 'default',
+                    background: !showFeatures ? tool.color : 'transparent',
+                    color: !showFeatures ? '#fff' : 'rgba(255,255,255,0.38)',
+                    fontSize: '13px', fontWeight: 700, fontFamily: 'inherit',
+                    transition: 'background 0.25s, color 0.25s',
+                    textShadow: !showFeatures ? '0 0 12px rgba(255,255,255,0.4)' : 'none',
+                  }}
+                >Overview</button>
+                <button
+                  onClick=${() => setShowFeatures(true)}
+                  style=${{
+                    padding: '8px 20px', border: 'none',
+                    cursor: showFeatures ? 'default' : 'pointer',
+                    background: showFeatures ? tool.color : 'transparent',
+                    color: showFeatures ? '#fff' : 'rgba(255,255,255,0.38)',
+                    fontSize: '13px', fontWeight: 700, fontFamily: 'inherit',
+                    transition: 'background 0.25s, color 0.25s',
+                    textShadow: showFeatures ? '0 0 12px rgba(255,255,255,0.4)' : 'none',
+                  }}
+                >Key Features</button>
               </div>
-              <button
-                onClick=${onShowFeatures}
-                style=${{
-                  display: 'flex', alignItems: 'center', gap: '6px',
-                  padding: '6px 14px', borderRadius: '9px',
-                  background: tool.dim, border: '1px solid ' + tool.color + '55',
-                  color: tool.color, fontSize: '12px', fontWeight: 700,
-                  cursor: 'pointer', letterSpacing: '-0.1px',
-                  transition: 'filter 0.2s',
-                }}
-                onMouseEnter=${e => e.currentTarget.style.filter = 'brightness(1.2)'}
-                onMouseLeave=${e => e.currentTarget.style.filter = 'brightness(1)'}
-              >Key Features →</button>
             </div>
           </div>
 
-          <!-- 2×2 Bento Grid -->
-          <div class="tool-bento">
+          <!-- SLIDING CONTENT — only this part moves -->
+          <div style=${{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
+            <div style=${{ display: 'flex', height: '100%', width: '200%', transform: showFeatures ? 'translateX(-50%)' : 'translateX(0)', transition: 'transform 0.55s cubic-bezier(0.16,1,0.3,1)', willChange: 'transform' }}>
 
-            <!-- THE PROBLEM -->
-            <div class="bento-cell" style=${{ borderColor: C.problem + '22' }}>
-              <div class="bento-cell-num">01</div>
-              <div class="bento-cell-head">
-                <div class="bento-stripe" style=${{ background: C.problem }} />
-                <div class="bento-label" style=${{ color: C.problem }}>The Problem</div>
-              </div>
-              <div class="bento-items">
-                ${tool.painPoints.map((p, i) => h`
-                  <div key=${i} class="bento-item">
-                    <span class="bento-dot" style=${{ background: C.problem }} />
-                    ${p}
+              <!-- PANEL 1: OVERVIEW (bento grid) -->
+              <div style=${{ width: '50%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <div class="tool-bento">
+
+                  <!-- PAIN POINTS -->
+                  <div class="bento-cell" style=${{ borderColor: C.problem + '33' }}>
+                    <div class="bento-cell-num">01</div>
+                    <div class="bento-cell-head">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke=${C.problem} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=${{ flexShrink: 0 }}>
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                      </svg>
+                      <div class="bento-label" style=${{ color: C.problem }}>Pain Points</div>
+                    </div>
+                    <div class="bento-items">
+                      ${tool.painPoints.map((p, i) => h`
+                        <div key=${i} class="bento-item">
+                          <span class="bento-dot" style=${{ background: C.problem, marginTop: '7px' }} />
+                          ${p}
+                        </div>
+                      `)}
+                    </div>
                   </div>
-                `)}
-              </div>
-            </div>
 
-            <!-- OUR SOLUTION -->
-            <div class="bento-cell" style=${{ borderColor: C.solution + '22' }}>
-              <div class="bento-cell-num">02</div>
-              <div class="bento-cell-head">
-                <div class="bento-stripe" style=${{ background: C.solution }} />
-                <div class="bento-label" style=${{ color: C.solution }}>Our Solution</div>
-              </div>
-              <div class="bento-items">
-                ${tool.solutions.map((s, i) => h`
-                  <div key=${i} class="bento-item">
-                    <span class="bento-dot" style=${{ background: C.solution }} />
-                    ${s}
+                  <!-- SOLUTION -->
+                  <div class="bento-cell" style=${{ borderColor: C.solution + '33' }}>
+                    <div class="bento-cell-num">02</div>
+                    <div class="bento-cell-head">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke=${C.solution} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=${{ flexShrink: 0 }}>
+                        <line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/>
+                        <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>
+                      </svg>
+                      <div class="bento-label" style=${{ color: C.solution }}>Solution</div>
+                    </div>
+                    <div class="bento-items">
+                      ${tool.solutions.map((s, i) => h`
+                        <div key=${i} class="bento-item">
+                          <span class="bento-dot" style=${{ background: C.solution, marginTop: '7px' }} />
+                          ${s}
+                        </div>
+                      `)}
+                    </div>
                   </div>
-                `)}
-              </div>
-            </div>
 
-            <!-- WHAT YOU GAIN -->
-            <div class="bento-cell" style=${{ borderColor: C.benefits + '22' }}>
-              <div class="bento-cell-num">03</div>
-              <div class="bento-cell-head">
-                <div class="bento-stripe" style=${{ background: C.benefits }} />
-                <div class="bento-label" style=${{ color: C.benefits }}>What You Gain</div>
-              </div>
-              <div class="bento-items">
-                ${tool.benefits.map((b, i) => h`
-                  <div key=${i} class="bento-item">
-                    <span class="bento-dot" style=${{ background: C.benefits }} />
-                    ${b}
+                  <!-- BENEFIT -->
+                  <div class="bento-cell" style=${{ borderColor: C.benefits + '33' }}>
+                    <div class="bento-cell-num">03</div>
+                    <div class="bento-cell-head">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke=${C.benefits} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=${{ flexShrink: 0 }}>
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                        <polyline points="17 6 23 6 23 12"/>
+                      </svg>
+                      <div class="bento-label" style=${{ color: C.benefits }}>Benefit</div>
+                    </div>
+                    <div class="bento-items">
+                      ${tool.benefits.map((b, i) => h`
+                        <div key=${i} class="bento-item">
+                          <span class="bento-dot" style=${{ background: C.benefits, marginTop: '7px' }} />
+                          ${b}
+                        </div>
+                      `)}
+                    </div>
                   </div>
-                `)}
-              </div>
-            </div>
 
-            <!-- GET STARTED -->
-            <div class="bento-cell" style=${{ borderColor: tool.color + '30', background: tool.bg }}>
-              <div class="bento-cell-num">04</div>
-              <div class="bento-cell-head">
-                <div class="bento-stripe" style=${{ background: tool.color }} />
-                <div class="bento-label" style=${{ color: tool.color }}>Get Started</div>
-              </div>
-              <div class="bento-items" style=${{ flex: 'none' }}>
-                ${tool.howToUse.map((step, i) => h`
-                  <div key=${i} class="bento-step">
-                    <span class="bento-step-num" style=${{ background: tool.dim, color: tool.color }}>${step.n}</span>
-                    ${step.text}
+                  <!-- GET STARTED -->
+                  <div class="bento-cell" style=${{ borderColor: tool.color + '35', background: tool.bg }}>
+                    <div class="bento-cell-num">04</div>
+                    <div class="bento-cell-head">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke=${tool.color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=${{ flexShrink: 0 }}>
+                        <circle cx="12" cy="12" r="10"/>
+                        <polygon points="10 8 16 12 10 16 10 8" fill=${tool.color} stroke="none"/>
+                      </svg>
+                      <div class="bento-label" style=${{ color: tool.color }}>Get Started</div>
+                      <div style=${{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '5px', padding: '3px 10px', borderRadius: '6px', background: 'rgba(52,211,153,0.12)', border: '1px solid rgba(52,211,153,0.25)', fontSize: '11px', fontWeight: 700, color: '#34d399', flexShrink: 0 }}>
+                        <span class="live-dot" />Ready to Use
+                      </div>
+                    </div>
+                    <div class="bento-items" style=${{ flex: 'none' }}>
+                      ${tool.howToUse.map((step, i) => h`
+                        <div key=${i} class="bento-step">
+                          <span class="bento-step-num" style=${{ background: tool.dim, color: tool.color }}>${step.n}</span>
+                          ${step.text}
+                        </div>
+                      `)}
+                    </div>
+                    <a
+                      href=${tool.demoUrl} target="_blank" rel="noopener noreferrer"
+                      style=${{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '12px', padding: '11px 16px', borderRadius: '11px', background: tool.color, color: '#fff', fontSize: '14px', fontWeight: 700, textDecoration: 'none', letterSpacing: '-0.1px', boxShadow: '0 4px 16px ' + tool.shadow, transition: 'filter 0.2s, transform 0.2s', flexShrink: 0 }}
+                      onMouseEnter=${e => { e.currentTarget.style.filter = 'brightness(1.12)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+                      onMouseLeave=${e => { e.currentTarget.style.filter = 'brightness(1)'; e.currentTarget.style.transform = 'translateY(0)' }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                        <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                      </svg>
+                      Open Tool
+                    </a>
                   </div>
-                `)}
-              </div>
-            </div>
 
+                </div>
+              </div>
+
+              <!-- PANEL 2: KEY FEATURES -->
+              <div style=${{ width: '50%', height: '100%', display: 'flex', flexDirection: 'column', padding: '14px 24px 16px', gap: '12px' }}>
+                <div style=${{
+                  flex: 1, minHeight: 0, display: 'grid', gap: '12px',
+                  gridTemplateColumns: (n => Array(n<=2?n:n===4?2:3).fill('1fr').join(' '))(tool.features.length),
+                  gridTemplateRows: (n => { const c=n<=2?n:n===4?2:3; return Array(Math.ceil(n/c)).fill('1fr').join(' ') })(tool.features.length),
+                }}>
+                  ${tool.features.map((feat, i) => h`
+                    <div key=${i} style=${{ display: 'flex', flexDirection: 'column', gap: '12px', background: 'rgba(255,255,255,0.025)', border: '1px solid ' + tool.color + '20', borderRadius: '16px', overflow: 'hidden', padding: '18px' }}>
+                      <div style=${{ flexShrink: 0, display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                        <div style=${{ width: '26px', height: '26px', borderRadius: '8px', background: tool.dim, color: tool.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 800, flexShrink: 0, marginTop: '2px' }}>${i + 1}</div>
+                        <div style=${{ fontSize: '22px', fontWeight: 800, color: '#fff', letterSpacing: '-0.4px', lineHeight: 1.25 }}>${feat.title}</div>
+                      </div>
+                      ${feat.images
+                        ? h`<${ImageCarousel} images=${feat.images} title=${feat.title} color=${tool.color} />`
+                        : h`<div style=${{ flex: 1, minHeight: 0, borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflowY: 'auto' }}><img src=${feat.image} alt=${feat.title} style=${{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' }} /></div>`
+                      }
+                      <div style=${{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                        ${feat.points.map((p, j) => h`
+                          <div key=${j} style=${{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.5 }}>
+                            <span style=${{ width: '4px', height: '4px', borderRadius: '50%', background: tool.color, flexShrink: 0, marginTop: '7px' }} />
+                            ${p}
+                          </div>
+                        `)}
+                      </div>
+                    </div>
+                  `)}
+                </div>
+                <a
+                  href=${tool.demoUrl} target="_blank" rel="noopener noreferrer"
+                  style=${{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '14px', borderRadius: '14px', background: tool.color, color: '#fff', fontSize: '15px', fontWeight: 700, textDecoration: 'none', letterSpacing: '-0.2px', boxShadow: '0 6px 24px ' + tool.shadow, flexShrink: 0, transition: 'filter 0.2s, transform 0.2s' }}
+                  onMouseEnter=${e => { e.currentTarget.style.filter = 'brightness(1.12)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+                  onMouseLeave=${e => { e.currentTarget.style.filter = 'brightness(1)'; e.currentTarget.style.transform = 'translateY(0)' }}
+                >Launch Live Demo →</a>
+              </div>
+
+            </div>
           </div>
+
         </div>
       `
     }
 
     // ── APP ──────────────────────────────────────────────────────────────
-    const FONT_SCALES = {
-      S: { '--fs-body': '12px', '--fs-small': '11px' },
-      M: { '--fs-body': '14px', '--fs-small': '12.5px' },
-      L: { '--fs-body': '16.5px', '--fs-small': '14.5px' },
-    }
-
     function App() {
-      // Main path: 0=home, 1-4=detail. Features (5-8) only via button.
       const [current, setCurrent] = useState(0)
-      const [fontSize, setFontSize] = useState('M')
 
       const navigate = useCallback((idx) => {
-        if (idx >= 0 && idx <= 8) setCurrent(idx)
+        if (idx >= 0 && idx <= 4) setCurrent(idx)
       }, [])
 
-      // Arrow keys + swipe only move through the main path (0-4).
-      // If on a features slide (5-8), any direction returns to its detail slide.
       const navigateMain = useCallback((dir) => {
-        if (current >= 5) {
-          setCurrent(current - 4)
-        } else {
-          const next = current + dir
-          if (next >= 0 && next <= 4) setCurrent(next)
-        }
+        const next = current + dir
+        if (next >= 0 && next <= 4) setCurrent(next)
       }, [current])
 
       useEffect(() => {
@@ -848,28 +796,21 @@
         return () => { window.removeEventListener('touchstart', onTouchStart); window.removeEventListener('touchend', onTouchEnd) }
       }, [navigateMain])
 
-      const mainIdx = current >= 5 ? current - 4 : current
-      const progressPct = (mainIdx / 4) * 100
-      const activeTool = current >= 1 && current <= 4 ? tools[current - 1]
-                       : current >= 5 ? tools[current - 5] : null
+      const progressPct = (current / 4) * 100
+      const activeTool = current >= 1 ? tools[current - 1] : null
 
       return h`
         <div>
           <${NavBar}
             current=${current} tools=${tools}
             onNavigate=${navigate} navigateMain=${navigateMain}
-            mainIdx=${mainIdx}
-            fontSize=${fontSize} onFontSize=${setFontSize}
           />
 
-          <div class="slides-viewport" style=${FONT_SCALES[fontSize]}>
+          <div class="slides-viewport">
             <div class="slides-track" style=${{ transform: 'translateX(' + (-current * 100) + 'vw)' }}>
               <${HomeSlide} tools=${tools} onSelectTool=${navigate} />
-              ${tools.map((tool, i) => h`
-                <${ToolSlide} key=${tool.id} tool=${tool} onShowFeatures=${() => navigate(i + 5)} />
-              `)}
-              ${tools.map((tool, i) => h`
-                <${ToolFeaturesSlide} key=${'feat-' + tool.id} tool=${tool} onBack=${() => navigate(i + 1)} />
+              ${tools.map((tool) => h`
+                <${ToolContainer} key=${tool.id} tool=${tool} />
               `)}
             </div>
           </div>
