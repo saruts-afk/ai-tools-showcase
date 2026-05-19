@@ -330,11 +330,13 @@
           { n: '3', text: 'Report via internal tracker, public page, or SeaTalk bot' },
           { n: '4', text: 'All reports merge into one shared, always-up-to-date record' },
         ],
-        keyFeatures: [
-          'SeaTalk bot: report, update & check bug status via chat',
-          'AI smart duplicate detection before submission',
-          'Public case collection page for player submissions',
-          'Manager queue summaries — no manual scrolling needed',
+        keyFeatures: [],
+        features: [
+          { title: 'SeaTalk Bot Commands', points: ['Report, update & check bug status directly from chat'], image: 'images/bug-report-bug.png' },
+          { title: 'Smart Duplicate Check', points: ['AI detects potential duplicates before any report is submitted'], image: 'images/bug-duplicate.png' },
+          { title: 'Public Case Collection', points: ['Open website for players to submit structured bug cases'], image: 'images/bug-collection.png' },
+          { title: 'Instant Team Notifications', points: ['Real-time SeaTalk alert whenever a new bug is reported'], image: 'images/bug-notification.png' },
+          { title: 'Manager Summaries', points: ['Built-in SeaTalk summaries — see queue state without scrolling'], image: 'images/bug-summaries.png' },
         ],
         demoUrl: 'https://campaign-space.web.app/team/O3ClYt9izVSN38mMZldZ/bugTracker',
       },
@@ -365,11 +367,10 @@
           { n: '2', text: 'Upload your survey questions and response data' },
           { n: '3', text: 'Check mapping, then generate charts, summaries & translated reports' },
         ],
-        keyFeatures: [
-          'Heatmaps & histograms — up to 3 data dimensions',
-          'One-click report with custom question prompts or hypotheses',
-          'Auto-translation: TH to ZH or EN for regional review',
-          'AI-generated narrative summaries from any question set',
+        keyFeatures: [],
+        features: [
+          { title: 'Data Visualization', points: ['Create heatmap and histogram from chosen data', 'Auto-translate into English or Chinese'], image: 'images/survey-visualize.png' },
+          { title: 'One-Click Report', points: ['AI-recommended focus options included', 'Generates comprehensive insights automatically'], images: ['images/survey-report1.png', 'images/survey-report2.png', 'images/survey-report3.png'] },
         ],
         demoUrl: 'https://campaign-space.web.app/team/O3ClYt9izVSN38mMZldZ/tool/zjiRCGHpqFEmYCPPgtDb?tab=main',
       },
@@ -403,11 +404,11 @@
           { n: '2', text: 'Generate SQL from the tool, run on Zeppelin, upload the CSV' },
           { n: '3', text: 'Review auto-flagged suspects and mark ban candidates' },
         ],
-        keyFeatures: [
-          'Auto-generate Zeppelin SQL from OpenID & date range',
-          'Configurable detection rules & boosting signal thresholds',
-          'Key signals: win streaks, repeated opponents, short matches, KDA',
-          'Detailed visualization for each suspected booster',
+        keyFeatures: [],
+        features: [
+          { title: 'Auto-Generate Zeppelin Query', points: ['Select OpenID & date range to build SQL instantly', 'Run directly in Zeppelin — no manual query writing'], image: 'images/Elo-query.png' },
+          { title: 'Configurable Detection Rules', points: ['Set boosting signals: win streaks, opponent diversity, short matches', 'Tune thresholds per signal to match your criteria'], image: 'images/Elo-config.png' },
+          { title: 'Detailed Suspect Visualization', points: ['Per-player breakdown of all boosting signals', 'Mark ban candidates and export with full evidence'], image: 'images/Elo-report.png' },
         ],
         demoUrl: 'https://campaign-space.web.app/team/O3ClYt9izVSN38mMZldZ/tool/WV31ttqQjwHd5QqO6lrV?tab=main',
       },
@@ -540,8 +541,15 @@
 
             ${tool.features && tool.features.length ? h`
               <!-- IMAGE LAYOUT: one row per feature -->
-              <!-- VERTICAL CARDS side by side -->
-              <div style=${{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <!-- VERTICAL CARDS — columns adapt to feature count -->
+              ${(() => {
+                const n = tool.features.length
+                const cols = n <= 2 ? n : n === 4 ? 2 : 3
+                const rows = Math.ceil(n / cols)
+                const gridTemplateColumns = Array(cols).fill('1fr').join(' ')
+                const gridTemplateRows = Array(rows).fill('1fr').join(' ')
+                return h`<div style=${{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns, gridTemplateRows, gap: '12px' }}>`
+              })()}
                 ${tool.features.map((feat, i) => h`
                   <div key=${i} style=${{
                     display: 'flex', flexDirection: 'column', gap: '12px',
@@ -556,13 +564,13 @@
                       <div style=${{ fontSize: '22px', fontWeight: 800, color: '#fff', letterSpacing: '-0.4px', lineHeight: 1.25 }}>${feat.title}</div>
                     </div>
 
-                    <!-- Scrollable image -->
+                    <!-- Scrollable image(s) -->
                     <div style=${{ flex: 1, minHeight: 0, overflowY: 'auto', overflowX: 'hidden', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)' }}>
-                      <img
-                        src=${feat.image}
-                        alt=${feat.title}
-                        style=${{ width: '100%', display: 'block' }}
-                      />
+                      ${(feat.images || [feat.image]).map((src, si) => h`
+                        <img key=${si} src=${src} alt=${feat.title + ' ' + (si+1)}
+                          style=${{ width: '100%', display: 'block', borderBottom: si < (feat.images||[feat.image]).length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}
+                        />
+                      `)}
                     </div>
 
                     <!-- Bullet points -->
