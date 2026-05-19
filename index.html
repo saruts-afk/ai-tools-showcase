@@ -137,51 +137,50 @@
       background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.25);
       font-size: 11px; font-weight: 700; color: #34d399; white-space: nowrap; flex-shrink: 0;
     }
-    .tool-slide-body {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      flex: 1; min-height: 0;
-      border-top: 1px solid rgba(255,255,255,0.04);
+    /* ── BENTO GRID (DETAIL SLIDE) ──────────────────────── */
+    .tool-bento {
+      display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+      gap: 12px; flex: 1; min-height: 0; padding: 14px 24px 20px;
     }
-    .col {
-      padding: 20px 20px 16px; display: flex; flex-direction: column;
-      border-right: 1px solid rgba(255,255,255,0.05); overflow: hidden;
+    .bento-cell {
+      border-radius: 18px; padding: 18px 20px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      display: flex; flex-direction: column; position: relative; overflow: hidden;
     }
-    .col:last-child { border-right: none; }
-    .col-accent { height: 2px; border-radius: 1px; margin-bottom: 14px; flex-shrink: 0; }
-    .col-title {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase;
-      color: rgba(255,255,255,0.35); margin-bottom: 12px; flex-shrink: 0;
+    .bento-cell-num {
+      position: absolute; right: 14px; top: 6px; font-size: 80px; font-weight: 900;
+      line-height: 1; letter-spacing: -4px; opacity: 0.045; pointer-events: none;
+      color: #fff;
     }
-    .col-items { display: flex; flex-direction: column; gap: 0; flex: 1; min-height: 0; overflow: hidden; }
-    .col-item {
-      display: flex; align-items: flex-start; gap: 9px; padding: 7px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: var(--fs-body, 13px);
-      color: rgba(255,255,255,0.62); line-height: 1.45;
+    .bento-cell-head {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-shrink: 0;
     }
-    .col-item:last-child { border-bottom: none; }
-    .col-item-dot { flex-shrink: 0; width: 4px; height: 4px; border-radius: 50%; margin-top: 6px; }
-    .col-step {
-      display: flex; align-items: flex-start; gap: 10px; padding: 6px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: var(--fs-body, 13px);
-      color: rgba(255,255,255,0.62); line-height: 1.45;
+    .bento-stripe { width: 3px; height: 18px; border-radius: 2px; flex-shrink: 0; }
+    .bento-label {
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
     }
-    .col-step:last-child { border-bottom: none; }
-    .col-step-num {
-      width: 18px; height: 18px; border-radius: 6px; flex-shrink: 0;
+    .bento-items { display: flex; flex-direction: column; gap: 6px; flex: 1; min-height: 0; overflow: hidden; }
+    .bento-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 8px 11px; border-radius: 9px;
+      background: rgba(255,255,255,0.04);
+      font-size: var(--fs-body, 13px); color: rgba(255,255,255,0.72); line-height: 1.42;
+    }
+    .bento-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .bento-step {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 7px 10px; border-radius: 9px;
+      background: rgba(255,255,255,0.04);
+      font-size: var(--fs-body, 13px); color: rgba(255,255,255,0.72); line-height: 1.42;
+    }
+    .bento-step-num {
+      width: 20px; height: 20px; border-radius: 7px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 800; margin-top: 1px;
+      font-size: 10px; font-weight: 800; margin-top: 0px;
     }
-    .col-section-label {
-      font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      color: rgba(255,255,255,0.25); margin: 12px 0 6px; flex-shrink: 0;
-    }
-    .col-feature {
-      display: flex; align-items: flex-start; gap: 7px; padding: 5px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: var(--fs-small, 12px);
-      color: rgba(255,255,255,0.5); line-height: 1.4;
-    }
-    .col-feature:last-child { border-bottom: none; }
-    .col-spacer { flex: 1; }
+    .bento-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 10px 0; flex-shrink: 0; }
     .demo-btn {
       display: flex; align-items: center; justify-content: center; gap: 8px;
       padding: 11px 16px; border-radius: 11px; border: none; cursor: pointer;
@@ -400,7 +399,7 @@
     ]
 
     // ── TOP NAV ──────────────────────────────────────────────────────────
-    function NavBar({ current, total, tools, onNavigate, fontSize, onFontSize }) {
+    function NavBar({ current, tools, onNavigate, navigateMain, mainIdx, fontSize, onFontSize }) {
       const sizes = ['S', 'M', 'L']
       return h`
         <nav class="nav">
@@ -429,8 +428,8 @@
               `)}
             </div>
             <div class="nav-arrows">
-              <button class="nav-arrow" onClick=${() => onNavigate(current - 1)} disabled=${current === 0}>←</button>
-              <button class="nav-arrow" onClick=${() => onNavigate(current + 1)} disabled=${current === total - 1}>→</button>
+              <button class="nav-arrow" onClick=${() => navigateMain(-1)} disabled=${current === 0 && mainIdx === 0}>←</button>
+              <button class="nav-arrow" onClick=${() => navigateMain(1)}  disabled=${mainIdx === 4 && current <= 4}>→</button>
             </div>
           </div>
         </nav>
@@ -567,67 +566,108 @@
 
     // ── TOOL DETAIL SLIDE ────────────────────────────────────────────────
     function ToolSlide({ tool, onShowFeatures }) {
-      const colColors = {
-        problem: '#ff5c5c',
-        solution: '#34d399',
-        benefits: '#60a5fa',
-        start: tool.color,
-      }
+      const C = { problem: '#ff5c5c', solution: '#34d399', benefits: '#60a5fa' }
 
       return h`
         <div class="slide tool-slide bg-grid">
-          <div class="tool-slide-head">
-            <div class="tool-slide-icon" style=${{ background: tool.bg }}>
+
+          <!-- Ambient glow -->
+          <div style=${{ position: 'absolute', top: '-100px', right: '-100px', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, ' + tool.shadow + ' 0%, transparent 65%)', pointerEvents: 'none', opacity: 0.5 }} />
+
+          <!-- Header -->
+          <div class="tool-slide-head" style=${{ background: 'linear-gradient(135deg, ' + tool.bg + ' 0%, transparent 100%)', borderBottom: '1px solid ' + tool.color + '20' }}>
+            <div class="tool-slide-icon" style=${{ background: tool.dim }}>
               ${ICONS[tool.id](tool.color)}
             </div>
             <div>
-              <div class="tool-slide-name">${tool.name}</div>
+              <div class="tool-slide-name" style=${{ background: 'linear-gradient(90deg, #fff 0%, ' + tool.color + ' 200%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>${tool.name}</div>
               <div class="tool-slide-tagline" style=${{ color: tool.color }}>${tool.tagline}</div>
             </div>
-            <div class="tool-slide-badge">
-              <span class="live-dot" />
-              Ready to Use
+            <div style=${{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+              <div class="tool-slide-badge">
+                <span class="live-dot" />
+                Ready to Use
+              </div>
+              <button
+                onClick=${onShowFeatures}
+                style=${{
+                  display: 'flex', alignItems: 'center', gap: '6px',
+                  padding: '6px 14px', borderRadius: '9px',
+                  background: tool.dim, border: '1px solid ' + tool.color + '55',
+                  color: tool.color, fontSize: '12px', fontWeight: 700,
+                  cursor: 'pointer', letterSpacing: '-0.1px',
+                  transition: 'filter 0.2s',
+                }}
+                onMouseEnter=${e => e.currentTarget.style.filter = 'brightness(1.2)'}
+                onMouseLeave=${e => e.currentTarget.style.filter = 'brightness(1)'}
+              >Key Features →</button>
+              <a
+                href=${tool.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style=${{
+                  display: 'flex', alignItems: 'center', gap: '6px',
+                  padding: '6px 14px', borderRadius: '9px',
+                  background: tool.color, color: '#fff',
+                  fontSize: '12px', fontWeight: 700,
+                  textDecoration: 'none', letterSpacing: '-0.1px',
+                  boxShadow: '0 4px 16px ' + tool.shadow,
+                  transition: 'filter 0.2s, transform 0.2s',
+                }}
+                onMouseEnter=${e => { e.currentTarget.style.filter = 'brightness(1.15)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+                onMouseLeave=${e => { e.currentTarget.style.filter = 'brightness(1)'; e.currentTarget.style.transform = 'translateY(0)' }}
+              >Live Demo →</a>
             </div>
           </div>
 
-          <div class="tool-slide-body">
+          <!-- 2×2 Bento Grid -->
+          <div class="tool-bento">
 
-            <!-- PROBLEM -->
-            <div class="col">
-              <div class="col-accent" style=${{ background: colColors.problem }} />
-              <div class="col-title">The Problem</div>
-              <div class="col-items">
+            <!-- THE PROBLEM -->
+            <div class="bento-cell" style=${{ borderColor: C.problem + '22' }}>
+              <div class="bento-cell-num">01</div>
+              <div class="bento-cell-head">
+                <div class="bento-stripe" style=${{ background: C.problem }} />
+                <div class="bento-label" style=${{ color: C.problem }}>The Problem</div>
+              </div>
+              <div class="bento-items">
                 ${tool.painPoints.map((p, i) => h`
-                  <div key=${i} class="col-item">
-                    <span class="col-item-dot" style=${{ background: colColors.problem }} />
+                  <div key=${i} class="bento-item">
+                    <span class="bento-dot" style=${{ background: C.problem }} />
                     ${p}
                   </div>
                 `)}
               </div>
             </div>
 
-            <!-- SOLUTION -->
-            <div class="col">
-              <div class="col-accent" style=${{ background: colColors.solution }} />
-              <div class="col-title">Our Solution</div>
-              <div class="col-items">
+            <!-- OUR SOLUTION -->
+            <div class="bento-cell" style=${{ borderColor: C.solution + '22' }}>
+              <div class="bento-cell-num">02</div>
+              <div class="bento-cell-head">
+                <div class="bento-stripe" style=${{ background: C.solution }} />
+                <div class="bento-label" style=${{ color: C.solution }}>Our Solution</div>
+              </div>
+              <div class="bento-items">
                 ${tool.solutions.map((s, i) => h`
-                  <div key=${i} class="col-item">
-                    <span class="col-item-dot" style=${{ background: colColors.solution }} />
+                  <div key=${i} class="bento-item">
+                    <span class="bento-dot" style=${{ background: C.solution }} />
                     ${s}
                   </div>
                 `)}
               </div>
             </div>
 
-            <!-- BENEFITS -->
-            <div class="col">
-              <div class="col-accent" style=${{ background: colColors.benefits }} />
-              <div class="col-title">What You Gain</div>
-              <div class="col-items">
+            <!-- WHAT YOU GAIN -->
+            <div class="bento-cell" style=${{ borderColor: C.benefits + '22' }}>
+              <div class="bento-cell-num">03</div>
+              <div class="bento-cell-head">
+                <div class="bento-stripe" style=${{ background: C.benefits }} />
+                <div class="bento-label" style=${{ color: C.benefits }}>What You Gain</div>
+              </div>
+              <div class="bento-items">
                 ${tool.benefits.map((b, i) => h`
-                  <div key=${i} class="col-item">
-                    <span class="col-item-dot" style=${{ background: colColors.benefits }} />
+                  <div key=${i} class="bento-item">
+                    <span class="bento-dot" style=${{ background: C.benefits }} />
                     ${b}
                   </div>
                 `)}
@@ -635,40 +675,20 @@
             </div>
 
             <!-- GET STARTED -->
-            <div class="col">
-              <div class="col-accent" style=${{ background: tool.color }} />
-              <div class="col-title">Get Started</div>
-
-              <div class="col-section-label">How to Use</div>
-              ${tool.howToUse.map((step, i) => h`
-                <div key=${i} class="col-step">
-                  <span class="col-step-num" style=${{ background: tool.dim, color: tool.color }}>${step.n}</span>
-                  ${step.text}
-                </div>
-              `)}
-
-              <div class="col-spacer" />
-
-              <button
-                onClick=${onShowFeatures}
-                style=${{
-                  width: '100%', padding: '11px 0', borderRadius: '10px',
-                  background: tool.dim, border: '1px solid ' + tool.color + '40',
-                  color: tool.color, fontSize: '13px', fontWeight: 600,
-                  cursor: 'pointer', marginBottom: '10px',
-                  letterSpacing: '-0.1px',
-                }}
-              >View Key Features →</button>
-
-              <a
-                href=${tool.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="demo-btn"
-                style=${{ background: tool.color }}
-              >
-                Launch Live Demo →
-              </a>
+            <div class="bento-cell" style=${{ borderColor: tool.color + '30', background: tool.bg }}>
+              <div class="bento-cell-num">04</div>
+              <div class="bento-cell-head">
+                <div class="bento-stripe" style=${{ background: tool.color }} />
+                <div class="bento-label" style=${{ color: tool.color }}>Get Started</div>
+              </div>
+              <div class="bento-items" style=${{ flex: 'none' }}>
+                ${tool.howToUse.map((step, i) => h`
+                  <div key=${i} class="bento-step">
+                    <span class="bento-step-num" style=${{ background: tool.dim, color: tool.color }}>${step.n}</span>
+                    ${step.text}
+                  </div>
+                `)}
+              </div>
             </div>
 
           </div>
@@ -684,46 +704,61 @@
     }
 
     function App() {
-      // slides: 0=home, 1-4=detail, 5-8=features
-      const total = 9
+      // Main path: 0=home, 1-4=detail. Features (5-8) only via button.
       const [current, setCurrent] = useState(0)
       const [fontSize, setFontSize] = useState('M')
 
       const navigate = useCallback((idx) => {
-        if (idx >= 0 && idx < total) setCurrent(idx)
-      }, [total])
+        if (idx >= 0 && idx <= 8) setCurrent(idx)
+      }, [])
+
+      // Arrow keys + swipe only move through the main path (0-4).
+      // If on a features slide (5-8), any direction returns to its detail slide.
+      const navigateMain = useCallback((dir) => {
+        if (current >= 5) {
+          setCurrent(current - 4)
+        } else {
+          const next = current + dir
+          if (next >= 0 && next <= 4) setCurrent(next)
+        }
+      }, [current])
 
       useEffect(() => {
         const onKey = (e) => {
-          if (e.key === 'ArrowRight') navigate(current + 1)
-          if (e.key === 'ArrowLeft') navigate(current - 1)
+          if (e.key === 'ArrowRight') navigateMain(1)
+          if (e.key === 'ArrowLeft')  navigateMain(-1)
         }
         window.addEventListener('keydown', onKey)
         return () => window.removeEventListener('keydown', onKey)
-      }, [current, navigate])
+      }, [navigateMain])
 
-      // Touch/swipe support
       useEffect(() => {
         let startX = null
         const onTouchStart = (e) => { startX = e.touches[0].clientX }
         const onTouchEnd = (e) => {
           if (startX === null) return
           const dx = startX - e.changedTouches[0].clientX
-          if (Math.abs(dx) > 60) navigate(dx > 0 ? current + 1 : current - 1)
+          if (Math.abs(dx) > 60) navigateMain(dx > 0 ? 1 : -1)
           startX = null
         }
         window.addEventListener('touchstart', onTouchStart, { passive: true })
         window.addEventListener('touchend', onTouchEnd, { passive: true })
         return () => { window.removeEventListener('touchstart', onTouchStart); window.removeEventListener('touchend', onTouchEnd) }
-      }, [current, navigate])
+      }, [navigateMain])
 
-      const progressPct = (current / (total - 1)) * 100
+      const mainIdx = current >= 5 ? current - 4 : current
+      const progressPct = (mainIdx / 4) * 100
       const activeTool = current >= 1 && current <= 4 ? tools[current - 1]
                        : current >= 5 ? tools[current - 5] : null
 
       return h`
         <div>
-          <${NavBar} current=${current} total=${total} tools=${tools} onNavigate=${navigate} fontSize=${fontSize} onFontSize=${setFontSize} />
+          <${NavBar}
+            current=${current} tools=${tools}
+            onNavigate=${navigate} navigateMain=${navigateMain}
+            mainIdx=${mainIdx}
+            fontSize=${fontSize} onFontSize=${setFontSize}
+          />
 
           <div class="slides-viewport" style=${FONT_SCALES[fontSize]}>
             <div class="slides-track" style=${{ transform: 'translateX(' + (-current * 100) + 'vw)' }}>
