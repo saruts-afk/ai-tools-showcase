@@ -601,22 +601,6 @@
                 onMouseEnter=${e => e.currentTarget.style.filter = 'brightness(1.2)'}
                 onMouseLeave=${e => e.currentTarget.style.filter = 'brightness(1)'}
               >Key Features →</button>
-              <a
-                href=${tool.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style=${{
-                  display: 'flex', alignItems: 'center', gap: '6px',
-                  padding: '6px 14px', borderRadius: '9px',
-                  background: tool.color, color: '#fff',
-                  fontSize: '12px', fontWeight: 700,
-                  textDecoration: 'none', letterSpacing: '-0.1px',
-                  boxShadow: '0 4px 16px ' + tool.shadow,
-                  transition: 'filter 0.2s, transform 0.2s',
-                }}
-                onMouseEnter=${e => { e.currentTarget.style.filter = 'brightness(1.15)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-                onMouseLeave=${e => { e.currentTarget.style.filter = 'brightness(1)'; e.currentTarget.style.transform = 'translateY(0)' }}
-              >Live Demo →</a>
             </div>
           </div>
 
