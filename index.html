@@ -542,14 +542,11 @@
             ${tool.features && tool.features.length ? h`
               <!-- IMAGE LAYOUT: one row per feature -->
               <!-- VERTICAL CARDS — columns adapt to feature count -->
-              ${(() => {
-                const n = tool.features.length
-                const cols = n <= 2 ? n : n === 4 ? 2 : 3
-                const rows = Math.ceil(n / cols)
-                const gridTemplateColumns = Array(cols).fill('1fr').join(' ')
-                const gridTemplateRows = Array(rows).fill('1fr').join(' ')
-                return h`<div style=${{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns, gridTemplateRows, gap: '12px' }}>`
-              })()}
+              <div style=${{
+                flex: 1, minHeight: 0, display: 'grid', gap: '12px',
+                gridTemplateColumns: (n => Array(n<=2?n:n===4?2:3).fill('1fr').join(' '))(tool.features.length),
+                gridTemplateRows: (n => { const c=n<=2?n:n===4?2:3; return Array(Math.ceil(n/c)).fill('1fr').join(' ') })(tool.features.length),
+              }}>
                 ${tool.features.map((feat, i) => h`
                   <div key=${i} style=${{
                     display: 'flex', flexDirection: 'column', gap: '12px',
