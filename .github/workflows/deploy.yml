@@ -12,23 +12,33 @@ jobs:
 
       - name: Deploy to Netlify
         run: |
-          HASH=$(sha1sum index.html | awk '{print $1}')
+          # Build file manifest with all files
+          INDEX_HASH=$(sha1sum index.html | awk '{print $1}')
+          MANIFEST="{\"files\":{\"/index.html\":\"${INDEX_HASH}\""
 
-          # Create a new deploy with file manifest
+          for img in images/*.png images/*.jpg images/*.jpeg images/*.gif images/*.webp; do
+            [ -f "$img" ] || continue
+            HASH=$(sha1sum "$img" | awk '{print $1}')
+            MANIFEST+=",\"/${img}\":\"${HASH}\""
+          done
+          MANIFEST+="}}"
+
+          echo "Deploying with manifest: $MANIFEST"
+
           DEPLOY=$(curl -sf -X POST \
             "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys" \
             -H "Authorization: Bearer $NETLIFY_TOKEN" \
             -H "Content-Type: application/json" \
-            -d "{\"files\":{\"/index.html\":\"${HASH}\"}}")
+            -d "$MANIFEST")
 
           DEPLOY_ID=$(echo "$DEPLOY" | python3 -c "import sys,json; print(json.load(sys.stdin)['id'])")
-          REQUIRED=$(echo "$DEPLOY" | python3 -c "import sys,json; print(len(json.load(sys.stdin).get('required',[])))")
+          REQUIRED=$(echo "$DEPLOY" | python3 -c "import sys,json; print(json.dumps(json.load(sys.stdin).get('required',[])))")
 
           echo "Deploy ID: $DEPLOY_ID"
-          echo "Files to upload: $REQUIRED"
+          echo "Required: $REQUIRED"
 
-          # Only upload if Netlify doesn't already have this file version cached
-          if [ "$REQUIRED" -gt "0" ]; then
+          # Upload index.html if Netlify needs it
+          if echo "$REQUIRED" | grep -q "$INDEX_HASH"; then
             curl -sf -X PUT \
               "https://api.netlify.com/api/v1/deploys/$DEPLOY_ID/files/index.html" \
               -H "Authorization: Bearer $NETLIFY_TOKEN" \
@@ -36,8 +46,24 @@ jobs:
               --data-binary @index.html
             echo "Uploaded index.html"
           else
-            echo "File already cached, deploy processing..."
+            echo "index.html already cached"
           fi
+
+          # Upload each image if Netlify needs it
+          for img in images/*.png images/*.jpg images/*.jpeg images/*.gif images/*.webp; do
+            [ -f "$img" ] || continue
+            HASH=$(sha1sum "$img" | awk '{print $1}')
+            if echo "$REQUIRED" | grep -q "$HASH"; then
+              curl -sf -X PUT \
+                "https://api.netlify.com/api/v1/deploys/$DEPLOY_ID/files/${img}" \
+                -H "Authorization: Bearer $NETLIFY_TOKEN" \
+                -H "Content-Type: application/octet-stream" \
+                --data-binary @"${img}"
+              echo "Uploaded ${img}"
+            else
+              echo "Skipped ${img} (already cached)"
+            fi
+          done
 
           echo ""
           echo "Live: https://ai-tools-showcase-team.netlify.app"
