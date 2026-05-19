@@ -274,11 +274,26 @@
           { n: '2', text: 'Enable Live Tracking Module for the team' },
           { n: '3', text: 'Create a session, set config, then monitor live & generate report' },
         ],
-        keyFeatures: [
-          'Multi-platform: TikTok, YouTube, Facebook in one view',
-          'Tag-based: track overall + per-streamer performance',
-          'Key metrics: Avg CV, PCV, Live Period auto-calculated',
-          'AI report generator from live + optional extra context',
+        keyFeatures: [],
+        features: [
+          {
+            title: 'Track Livestream Performance Data',
+            points: [
+              'Tag-based: track overall + per-streamer performance',
+              'Multi-platform: TikTok, YouTube & Facebook in one view',
+              'Key metrics: Avg CV, PCV, Live Period',
+            ],
+            image: 'images/livestream-tracking.png',
+          },
+          {
+            title: 'Auto-Generate Report from Live Data',
+            points: [
+              'AI-generated insights from live session data',
+              'Add additional context for richer executive summaries',
+              'Export as PDF or download raw CSV instantly',
+            ],
+            image: 'images/livestream-report.png',
+          },
         ],
         demoUrl: 'https://campaign-space.web.app/team/O3ClYt9izVSN38mMZldZ/liveTracking',
       },
@@ -520,20 +535,67 @@
             </div>
           </div>
 
-          <!-- Feature cards — same bento padding as detail slide -->
+          <!-- Feature content — image layout if tool.features exists, bento grid otherwise -->
           <div style=${{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', padding: '14px 24px 16px', gap: '12px' }}>
-            <div style=${{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: '12px', flex: 1, minHeight: 0 }}>
-              ${tool.keyFeatures.map((feat, i) => h`
-                <div key=${i} class="bento-cell" style=${{ borderColor: tool.color + '22' }}>
-                  <div class="bento-cell-num">${'0' + (i + 1)}</div>
-                  <div class="bento-cell-head">
-                    <div class="bento-stripe" style=${{ background: tool.color }} />
-                    <div class="bento-label" style=${{ color: tool.color }}>Feature ${i + 1}</div>
+
+            ${tool.features && tool.features.length ? h`
+              <!-- IMAGE LAYOUT: one row per feature -->
+              <div style=${{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                ${tool.features.map((feat, i) => h`
+                  <div key=${i} style=${{
+                    flex: 1, minHeight: 0, display: 'flex', gap: '16px',
+                    background: 'rgba(255,255,255,0.025)',
+                    border: '1px solid ' + tool.color + '20',
+                    borderRadius: '16px', overflow: 'hidden',
+                  }}>
+                    <!-- Text side -->
+                    <div style=${{ width: '260px', flexShrink: 0, padding: '20px 20px 20px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '10px' }}>
+                      <div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <div style=${{ width: '24px', height: '24px', borderRadius: '7px', background: tool.dim, color: tool.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 800, flexShrink: 0 }}>${i + 1}</div>
+                        <div style=${{ fontSize: '13px', fontWeight: 700, color: '#fff', letterSpacing: '-0.2px', lineHeight: 1.3 }}>${feat.title}</div>
+                      </div>
+                      <div style=${{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                        ${feat.points.map((p, j) => h`
+                          <div key=${j} style=${{ display: 'flex', alignItems: 'flex-start', gap: '7px', fontSize: 'var(--fs-body, 13px)', color: 'rgba(255,255,255,0.62)', lineHeight: 1.4 }}>
+                            <span style=${{ width: '4px', height: '4px', borderRadius: '50%', background: tool.color, flexShrink: 0, marginTop: '6px' }} />
+                            ${p}
+                          </div>
+                        `)}
+                      </div>
+                    </div>
+                    <!-- Screenshot side -->
+                    <div style=${{ flex: 1, minWidth: 0, padding: '12px 12px 12px 0', display: 'flex', alignItems: 'center' }}>
+                      <img
+                        src=${feat.image}
+                        alt=${feat.title}
+                        style=${{
+                          width: '100%', height: '100%',
+                          objectFit: 'cover', objectPosition: 'top left',
+                          borderRadius: '10px',
+                          border: '1px solid rgba(255,255,255,0.08)',
+                          boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+                          display: 'block',
+                        }}
+                      />
+                    </div>
                   </div>
-                  <div style=${{ fontSize: 'var(--fs-body, 13px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.5, flex: 1 }}>${feat}</div>
-                </div>
-              `)}
-            </div>
+                `)}
+              </div>
+            ` : h`
+              <!-- BENTO GRID fallback for tools without images -->
+              <div style=${{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: '12px', flex: 1, minHeight: 0 }}>
+                ${tool.keyFeatures.map((feat, i) => h`
+                  <div key=${i} class="bento-cell" style=${{ borderColor: tool.color + '22' }}>
+                    <div class="bento-cell-num">${'0' + (i + 1)}</div>
+                    <div class="bento-cell-head">
+                      <div class="bento-stripe" style=${{ background: tool.color }} />
+                      <div class="bento-label" style=${{ color: tool.color }}>Feature ${i + 1}</div>
+                    </div>
+                    <div style=${{ fontSize: 'var(--fs-body, 13px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.5, flex: 1 }}>${feat}</div>
+                  </div>
+                `)}
+              </div>
+            `}
 
             <!-- Demo CTA — full width at bottom -->
             <a
