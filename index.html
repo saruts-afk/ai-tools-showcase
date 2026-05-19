@@ -565,13 +565,21 @@
                     </div>
 
                     <!-- Scrollable image(s) -->
-                    <div style=${{ flex: 1, minHeight: 0, overflowY: 'auto', overflowX: 'hidden', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)' }}>
-                      ${(feat.images || [feat.image]).map((src, si) => h`
-                        <img key=${si} src=${src} alt=${feat.title + ' ' + (si+1)}
-                          style=${{ width: '100%', display: 'block', borderBottom: si < (feat.images||[feat.image]).length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}
-                        />
-                      `)}
-                    </div>
+                    ${feat.images ? h`
+                      <!-- Horizontal scroll for multiple images -->
+                      <div style=${{ flex: 1, minHeight: 0, borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)', overflowX: 'auto', overflowY: 'hidden', display: 'flex', scrollSnapType: 'x mandatory' }}>
+                        ${feat.images.map((src, si) => h`
+                          <img key=${si} src=${src} alt=${feat.title + ' ' + (si+1)}
+                            style=${{ flexShrink: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top left', scrollSnapAlign: 'start', borderRight: si < feat.images.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}
+                          />
+                        `)}
+                      </div>
+                    ` : h`
+                      <!-- Single image vertical scroll -->
+                      <div style=${{ flex: 1, minHeight: 0, overflowY: 'auto', overflowX: 'hidden', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)' }}>
+                        <img src=${feat.image} alt=${feat.title} style=${{ width: '100%', display: 'block' }} />
+                      </div>
+                    `}
 
                     <!-- Bullet points -->
                     <div style=${{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
