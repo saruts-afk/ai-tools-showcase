@@ -4,64 +4,81 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy to Netlify
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy dist to Netlify
         run: |
-          # Build file manifest with all files
-          INDEX_HASH=$(sha1sum index.html | awk '{print $1}')
-          MANIFEST="{\"files\":{\"/index.html\":\"${INDEX_HASH}\""
+          python3 <<'PY' > /tmp/netlify-manifest.json
+          import hashlib
+          import json
+          import os
 
-          for img in images/*.png images/*.jpg images/*.jpeg images/*.gif images/*.webp; do
-            [ -f "$img" ] || continue
-            HASH=$(sha1sum "$img" | awk '{print $1}')
-            MANIFEST+=",\"/${img}\":\"${HASH}\""
-          done
-          MANIFEST+="}}"
+          files = {}
+          for root, _, names in os.walk("dist"):
+              for name in names:
+                  path = os.path.join(root, name)
+                  rel = os.path.relpath(path, "dist").replace(os.sep, "/")
+                  with open(path, "rb") as f:
+                      files[f"/{rel}"] = hashlib.sha1(f.read()).hexdigest()
 
-          echo "Deploying with manifest: $MANIFEST"
+          print(json.dumps({"files": files}, separators=(",", ":")))
+          PY
+
+          FILE_COUNT=$(python3 -c "import json; print(len(json.load(open('/tmp/netlify-manifest.json'))['files']))")
+          echo "Deploying ${FILE_COUNT} built files from dist/"
 
           DEPLOY=$(curl -sf -X POST \
             "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys" \
             -H "Authorization: Bearer $NETLIFY_TOKEN" \
             -H "Content-Type: application/json" \
-            -d "$MANIFEST")
+            --data-binary @/tmp/netlify-manifest.json)
 
-          DEPLOY_ID=$(echo "$DEPLOY" | python3 -c "import sys,json; print(json.load(sys.stdin)['id'])")
-          REQUIRED=$(echo "$DEPLOY" | python3 -c "import sys,json; print(json.dumps(json.load(sys.stdin).get('required',[])))")
+          echo "$DEPLOY" > /tmp/netlify-deploy.json
+          DEPLOY_ID=$(python3 -c "import json; print(json.load(open('/tmp/netlify-deploy.json'))['id'])")
 
+          python3 <<'PY' > /tmp/netlify-required.txt
+          import json
+
+          deploy = json.load(open("/tmp/netlify-deploy.json"))
+          for item in deploy.get("required", []):
+              print(item)
+          PY
+
+          REQUIRED_COUNT=$(wc -l < /tmp/netlify-required.txt | tr -d ' ')
           echo "Deploy ID: $DEPLOY_ID"
-          echo "Required: $REQUIRED"
+          echo "Files required by Netlify: $REQUIRED_COUNT"
 
-          # Upload index.html if Netlify needs it
-          if echo "$REQUIRED" | grep -q "$INDEX_HASH"; then
-            curl -sf -X PUT \
-              "https://api.netlify.com/api/v1/deploys/$DEPLOY_ID/files/index.html" \
-              -H "Authorization: Bearer $NETLIFY_TOKEN" \
-              -H "Content-Type: application/octet-stream" \
-              --data-binary @index.html
-            echo "Uploaded index.html"
-          else
-            echo "index.html already cached"
-          fi
+          find dist -type f | while IFS= read -r file; do
+            rel="${file#dist/}"
+            hash=$(sha1sum "$file" | awk '{print $1}')
 
-          # Upload each image if Netlify needs it
-          for img in images/*.png images/*.jpg images/*.jpeg images/*.gif images/*.webp; do
-            [ -f "$img" ] || continue
-            HASH=$(sha1sum "$img" | awk '{print $1}')
-            if echo "$REQUIRED" | grep -q "$HASH"; then
+            if grep -q "$hash" /tmp/netlify-required.txt; then
               curl -sf -X PUT \
-                "https://api.netlify.com/api/v1/deploys/$DEPLOY_ID/files/${img}" \
+                "https://api.netlify.com/api/v1/deploys/$DEPLOY_ID/files/$rel" \
                 -H "Authorization: Bearer $NETLIFY_TOKEN" \
                 -H "Content-Type: application/octet-stream" \
-                --data-binary @"${img}"
-              echo "Uploaded ${img}"
+                --data-binary @"$file"
+              echo "Uploaded $rel"
             else
-              echo "Skipped ${img} (already cached)"
+              echo "Skipped $rel (already cached)"
             fi
           done
 
