@@ -124,10 +124,10 @@ html, body { height: 100%; overflow: hidden; font-family: 'Inter', system-ui, sa
   gap: 12px; flex: 1; min-height: 0; padding: 14px 24px 20px;
   transition: grid-template-columns 0.35s ease, grid-template-rows 0.35s ease;
 }
-.tool-bento-focus-left { grid-template-columns: minmax(0, 3fr) minmax(150px, 1fr); }
-.tool-bento-focus-right { grid-template-columns: minmax(150px, 1fr) minmax(0, 3fr); }
-.tool-bento-focus-top { grid-template-rows: minmax(0, 3fr) minmax(78px, 1fr); }
-.tool-bento-focus-bottom { grid-template-rows: minmax(78px, 1fr) minmax(0, 3fr); }
+.tool-bento-focus-left { grid-template-columns: minmax(0, 4.2fr) minmax(150px, 1fr); }
+.tool-bento-focus-right { grid-template-columns: minmax(150px, 1fr) minmax(0, 4.2fr); }
+.tool-bento-focus-top { grid-template-rows: minmax(0, 4.2fr) minmax(78px, 1fr); }
+.tool-bento-focus-bottom { grid-template-rows: minmax(78px, 1fr) minmax(0, 4.2fr); }
 .bento-cell {
   border-radius: 18px; padding: 18px 20px; cursor: pointer;
   background: rgba(255,255,255,0.03);

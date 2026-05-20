@@ -108,18 +108,18 @@ const tools = [
     bg: 'rgba(59,139,255,0.1)',
     dim: 'rgba(59,139,255,0.18)',
     painPoints: [
-      'Building charts from survey data takes too long manually',
-      'Finding the key insight in hundreds of responses is exhausting',
-      'Translating results for regional teams adds extra hours',
+      'Quick survey analysis needs at least a few hours to output some results',
+      'Finding the key insight in hundreds of responses is exhausting especially for open ended questions',
+      'Creating reports takes a few more hours',
     ],
     solutions: [
       'Auto-matches Teasurvey responses to your question template',
-      'Auto-translates results from TH to ZH or EN',
-      'Generates histograms and heatmaps for any question set',
+      'Auto-language detection with translation into 5 languages',
+      'Generates charts and open question summaries for any question set',
       'AI writes chart summaries from your key questions',
     ],
     benefits: [
-      'Full survey results in minutes, not days',
+      'Full rough survey results in minutes, not days',
       'Answer hypotheses instantly with AI analysis',
       'No more manual translation or chart building',
     ],
@@ -147,14 +147,13 @@ const tools = [
     painPoints: [
       'Reviewing elo boosting cases takes hours of manual work',
       'Suspicious patterns are invisible in raw Zeppelin CSVs',
-      'Building a ban list is slow, tedious, and error-prone',
       'Hard to explain spreadsheet findings to CS or players',
     ],
     solutions: [
       'Turns Zeppelin CSVs into clean, structured evidence',
-      'Auto-ranks suspects by risk score',
-      'Surfaces key flags: repeated opponents, win rate, short matches, KDA',
-      'Mark ban candidates and export with full evidence',
+      'Configurable threshold for certain behavior detection',
+      'Surfaces key flags: repeated opponents, win rate, short matches, hero combinations',
+      'Mark ban candidates and export into ready-to-use ban file',
     ],
     benefits: [
       'Reviews drop from hours to minutes',
