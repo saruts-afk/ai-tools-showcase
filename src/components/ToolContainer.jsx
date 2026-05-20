@@ -62,9 +62,10 @@ export default function ToolContainer({ tool }) {
           </div>
           <div className="tool-slide-tagline" style={{ color: tool.color }}>{tool.tagline}</div>
         </div>
-        <div style={{ marginLeft: 'auto', flexShrink: 0 }}>
-          <div style={{ display: 'flex', borderRadius: '10px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden' }}>
+        <div className="tool-tabs-wrap" style={{ marginLeft: 'auto', flexShrink: 0 }}>
+          <div className="tool-tabs" style={{ display: 'flex', borderRadius: '10px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden' }}>
             <button
+              className="tool-tab-button"
               onClick={() => setShowFeatures(false)}
               style={{
                 padding: '10px 24px',
@@ -83,6 +84,7 @@ export default function ToolContainer({ tool }) {
               Overview
             </button>
             <button
+              className="tool-tab-button"
               onClick={() => setShowFeatures(true)}
               style={{
                 padding: '10px 24px',
@@ -103,8 +105,9 @@ export default function ToolContainer({ tool }) {
         </div>
       </div>
 
-      <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
+      <div className="tool-content-viewport" style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
         <div
+          className="tool-panel-track"
           style={{
             display: 'flex',
             height: '100%',
@@ -164,7 +167,7 @@ function OverviewPanel({ tool }) {
   ]
 
   return (
-    <div style={{ width: '50%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <div className="overview-panel" style={{ width: '50%', height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div className={`tool-bento ${focusGridClass}`}>
         {sections.map((section) => (
           <BentoSection
@@ -270,8 +273,9 @@ function FeaturesPanel({ tool }) {
   }, [previewImage])
 
   return (
-    <div style={{ width: '50%', height: '100%', display: 'flex', flexDirection: 'column', padding: '14px 24px 16px', gap: '12px' }}>
+    <div className="features-panel" style={{ width: '50%', height: '100%', display: 'flex', flexDirection: 'column', padding: '14px 24px 16px', gap: '12px' }}>
       <div
+        className="features-grid"
         style={{
           flex: 1,
           minHeight: 0,
@@ -298,6 +302,7 @@ function FeaturesPanel({ tool }) {
 function FeatureCard({ feature, index, tool, onImageOpen }) {
   return (
     <div
+      className="feature-card"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -309,8 +314,9 @@ function FeatureCard({ feature, index, tool, onImageOpen }) {
         padding: '18px',
       }}
     >
-      <div style={{ flexShrink: 0, display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+      <div className="feature-card-head" style={{ flexShrink: 0, display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
         <div
+          className="feature-card-index"
           style={{
             width: '26px',
             height: '26px',
@@ -328,7 +334,7 @@ function FeatureCard({ feature, index, tool, onImageOpen }) {
         >
           {index + 1}
         </div>
-        <div style={{ fontSize: '34px', fontWeight: 800, color: '#fff', letterSpacing: 0, lineHeight: 1.14 }}>{feature.title}</div>
+        <div className="feature-title" style={{ fontSize: '34px', fontWeight: 800, color: '#fff', letterSpacing: 0, lineHeight: 1.14 }}>{feature.title}</div>
       </div>
 
       {feature.images ? (
@@ -344,9 +350,9 @@ function FeatureCard({ feature, index, tool, onImageOpen }) {
         </button>
       )}
 
-      <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+      <div className="feature-points" style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
         {feature.points.map((point, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '20px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4 }}>
+          <div className="feature-point" key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '20px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4 }}>
             <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: tool.color, flexShrink: 0, marginTop: '7px' }} />
             {point}
           </div>

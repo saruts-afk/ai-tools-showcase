@@ -28,17 +28,32 @@ export default function App() {
   }, [navigateMain])
 
   useEffect(() => {
-    let startX = null
+    let touchStart = null
 
     const onTouchStart = (e) => {
-      startX = e.touches[0].clientX
+      touchStart = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+        target: e.target,
+      }
     }
 
     const onTouchEnd = (e) => {
-      if (startX === null) return
-      const dx = startX - e.changedTouches[0].clientX
-      if (Math.abs(dx) > 60) navigateMain(dx > 0 ? 1 : -1)
-      startX = null
+      if (touchStart === null) return
+
+      const target = touchStart.target
+      if (target?.closest?.('.nav-pills, .carousel-image-button, .image-lightbox')) {
+        touchStart = null
+        return
+      }
+
+      const dx = touchStart.x - e.changedTouches[0].clientX
+      const dy = touchStart.y - e.changedTouches[0].clientY
+      const absDx = Math.abs(dx)
+      const absDy = Math.abs(dy)
+
+      if (absDx > 70 && absDx > absDy * 1.5) navigateMain(dx > 0 ? 1 : -1)
+      touchStart = null
     }
 
     window.addEventListener('touchstart', onTouchStart, { passive: true })
